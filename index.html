@@ -181,7 +181,7 @@ input,textarea,button{font-family:inherit}
 <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
 <div role="status" aria-live="polite" tabindex="-1" ref="{{ doneRef }}" style="display:flex;flex-direction:column;gap:12px;outline:none">
 <p style="margin:0;font-family:'Caveat Brush',cursive;font-size:44px;line-height:1;color:#9b2f4f">yay, thank you!</p>
-<p style="margin:0;font-size:19px;line-height:1.5;font-weight:800">Your reply has been recorded, {{ sentName }}.</p>
+<p style="margin:0;font-size:19px;line-height:1.5;font-weight:800">Got it, {{ sentName }}.</p>
 <p style="margin:0;font-size:18px;line-height:1.5">{{ sentSummary }}</p>
 <p style="margin:0;font-size:15px;color:#6e1d36">{{ previewNote }}</p>
 <button type="button" onClick="{{ reset }}" style="align-self:flex-start;min-height:48px;padding:0 20px;background:#fff;border:3px solid #2a211b;border-radius:999px;font-size:16px;font-weight:800;cursor:pointer;color:#2a211b">Change my reply</button>
@@ -195,7 +195,7 @@ input,textarea,button{font-family:inherit}
 <input id="rsvp-name" name="name" autocomplete="name" aria-required="{{ nameRequired }}" aria-invalid="{{ nameInvalid }}" aria-describedby="rsvp-err" value="{{ name }}" onChange="{{ onName }}" style="min-height:52px;box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:0 14px;font-size:18px;color:#2a211b">
 </div>
 <fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:12px">
-<legend style="padding:0;margin-bottom:12px;font-size:18px;font-weight:800">Which events will you attend? <span style="display:block;font-size:15px;font-weight:400;color:#4a4038">Tap a selected option again to clear it.</span></legend>
+<legend style="padding:0;margin-bottom:12px;font-size:18px;font-weight:800">Which events will you attend? <span style="display:block;font-size:15px;font-weight:400;color:#4a4038">Tap it again to unselect.</span></legend>
 <sc-for list="{{ options }}" as="opt" hint-placeholder-count="4">
 <label style="{{ opt.style }}">
 <input type="radio" name="attend" value="{{ opt.value }}" checked="{{ opt.checked }}" onClick="{{ opt.pick }}" onChange="{{ noop }}" style="width:22px;height:22px;margin:0;flex:none;accent-color:#9b2f4f">
@@ -398,8 +398,8 @@ class Component extends DCLogic {
   }
   doneRef = (el) => { if (el) el.focus(); };
   validate(s) {
-    if (!s.attend) return 'Please choose which events you will attend.';
-    if (!s.name.trim()) return 'Please enter your name.';
+    if (!s.attend) return "Pick which events you're coming to.";
+    if (!s.name.trim()) return "Add your name so we know who's coming.";
     return '';
   }
 
@@ -419,14 +419,14 @@ class Component extends DCLogic {
       { value: 'neither', label: 'Unable to attend', sub: 'Sending our wishes', bg: '#e3eefb' },
     ];
     const summaries = {
-      both: 'You will attend both the Wedding Ceremony on Thursday, November 5 and the Wedding Reception on Wednesday, November 11.',
-      ceremony: 'You will attend the Wedding Ceremony on Thursday, November 5.',
-      reception: 'You will attend the Wedding Reception on Wednesday, November 11.',
-      neither: 'You are unable to attend. Thank you for letting us know.',
+      both: 'See you at the ceremony on Thursday, Nov 5, and again at the reception on Wednesday, Nov 11.',
+      ceremony: 'See you at the ceremony on Thursday, Nov 5.',
+      reception: 'See you at the reception on Wednesday, Nov 11.',
+      neither: "We'll miss you. Thanks for letting us know.",
     };
     const showGuests = !!((this.props.askGuestCount ?? true) && s.attend && s.attend !== 'neither');
     let summary = summaries[s.attend] || '';
-    if (showGuests && s.sent) summary += ' Attendees: ' + s.count + '.';
+    if (showGuests && s.sent) summary += ' Party of ' + s.count + '.';
     const opened = st === 'rise' || st === 'fade';
     return {
       envVisible: st !== 'gone',
@@ -480,7 +480,7 @@ class Component extends DCLogic {
           try {
             await fetch(endpoint, { method: 'POST', mode: 'no-cors', body });
           } catch (x) {
-            this.setState({ sending: false, error: 'We could not send your reply. Please check your connection and try again.' });
+            this.setState({ sending: false, error: "That didn't go through. Check your connection and try again." });
             return;
           }
         }
