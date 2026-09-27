@@ -247,7 +247,7 @@ input,textarea,button{font-family:inherit}
 </div>
 
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props="{&quot;showEnvelope&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Opening&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;responsive&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;responsive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;breakpoint&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:600,&quot;min&quot;:360,&quot;max&quot;:900,&quot;step&quot;:20,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showThread&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;rsvpEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzCos9iIsnVn-sv557--dYrFmFP_DmYDqorhyNnNprB32Ph4f5-FuIoJSgKsiZ8zME6/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;askGuestCount&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;ceremonyMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/7jnDv8zNj9yVvmHY8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;receptionMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/Pa1DPMZLZHVxTLVWA&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;}}">
+<script type="text/x-dc" data-dc-script data-props="{&quot;showEnvelope&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Opening&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;responsive&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;responsive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;breakpoint&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:600,&quot;min&quot;:360,&quot;max&quot;:900,&quot;step&quot;:20,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showThread&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;rsvpEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzCos9iIsnVn-sv557--dYrFmFP_DmYDqorhyNnNprB32Ph4f5-FuIoJSgKsiZ8zME6/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;askGuestCount&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;ceremonyMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/7jnDv8zNj9yVvmHY8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;receptionMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/Pa1DPMZLZHVxTLVWA&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;}}">
 class Component extends DCLogic {
   state = { stage: 'gone', reduce: false, now: 0, pathD: '', len: 1, progress: 0, dot: null, narrow: false, name: '', attend: '', count: '1', note: '', sent: false, error: '', tried: false, calMsg: '' };
   KEY = 'vj-envelope-A';
@@ -489,7 +489,7 @@ class Component extends DCLogic {
       reception: 'See you at the reception on Wednesday, Nov 11.',
       neither: "We'll miss you. Thanks for letting us know.",
     };
-    const showGuests = !!((this.props.askGuestCount ?? true) && s.attend && s.attend !== 'neither');
+    const showGuests = !!((this.props.askGuestCount ?? false) && s.attend && s.attend !== 'neither');
     let summary = summaries[s.attend] || '';
     if (showGuests && s.sent) summary += ' Party of ' + s.count + '.';
     const opened = st === 'rise' || st === 'morph';
@@ -548,7 +548,7 @@ class Component extends DCLogic {
             name: s.name.trim(), response: labels[s.attend],
             ceremony: s.attend === 'both' || s.attend === 'ceremony' ? 'Yes' : 'No',
             reception: s.attend === 'both' || s.attend === 'reception' ? 'Yes' : 'No',
-            attendees: showGuests ? count : '', message: s.note.trim(),
+            message: s.note.trim(),
           });
           try {
             await fetch(endpoint, { method: 'POST', mode: 'no-cors', body });
