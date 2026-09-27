@@ -273,8 +273,8 @@ class Component extends DCLogic {
     this.setState({ stage: 'flap' });
     this.t1 = setTimeout(() => this.setState({ stage: 'rise' }), 600);
     this.tb = setTimeout(() => this.pop(window.innerWidth / 2, window.innerHeight / 2, -90, 70, 60), 650);
-    this.t2 = setTimeout(() => this.setState({ stage: 'fade' }), 1700);
-    this.t3 = setTimeout(this.finishEnv, 2300);
+    this.t2 = setTimeout(() => this.setState({ stage: 'fade' }), 1900);
+    this.t3 = setTimeout(this.finishEnv, 2900);
   };
   skipEnvelope = () => { try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {} this.finishEnv(); };
   finishEnv = () => {
@@ -361,16 +361,17 @@ class Component extends DCLogic {
       else p.style.cssText = 'width:' + size + 'px;height:' + (kind === 2 ? size * 0.5 : size) + 'px;background:' + col + ';border:2px solid #2a211b;border-radius:' + (kind === 3 ? '50%' : '3px');
       p.style.position = 'absolute'; p.style.left = x + 'px'; p.style.top = y + 'px';
       const dx = Math.cos(a) * v * H * 0.55, dy = Math.sin(a) * v * H * 0.55, fall = H * (0.7 + Math.random() * 0.5);
-      const drift = (Math.random() - 0.5) * 120, spin = (Math.random() - 0.5) * 1080, dur = 2200 + Math.random() * 1400;
+      const drift = (Math.random() - 0.5) * 120, spin = (Math.random() - 0.5) * 1080, dur = 4200 + Math.random() * 1800;
       p.animate([
         { transform: 'translate(-50%,-50%) translate(0,0) rotate(0) scale(.4)', opacity: 1 },
-        { transform: 'translate(-50%,-50%) translate(' + dx + 'px,' + dy + 'px) rotate(' + spin * 0.4 + 'deg) scale(1)', opacity: 1, offset: 0.25, easing: 'cubic-bezier(.3,0,.7,1)' },
+        { transform: 'translate(-50%,-50%) translate(' + dx + 'px,' + dy + 'px) rotate(' + spin * 0.4 + 'deg) scale(1)', opacity: 1, offset: 0.2, easing: 'cubic-bezier(.35,0,.65,1)' },
+        { transform: 'translate(-50%,-50%) translate(' + (dx - drift * 0.5) + 'px,' + (dy + fall * 0.45) + 'px) rotate(' + spin * 0.7 + 'deg) scale(1)', opacity: 1, offset: 0.6, easing: 'ease-in-out' },
         { transform: 'translate(-50%,-50%) translate(' + (dx + drift) + 'px,' + (dy + fall) + 'px) rotate(' + spin + 'deg) scale(.9)', opacity: 0 },
-      ], { duration: dur, easing: 'cubic-bezier(.15,.8,.35,1)', fill: 'forwards' });
+      ], { duration: dur, easing: 'linear', fill: 'forwards' });
       host.appendChild(p);
     }
     document.body.appendChild(host);
-    setTimeout(() => host.remove(), 4000);
+    setTimeout(() => host.remove(), 6500);
   }
   // Celebration shower: party poppers from both bottom corners.
   burst() {
@@ -437,13 +438,13 @@ class Component extends DCLogic {
     return {
       envVisible: st !== 'gone',
       envBtnStyle: 'position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;padding:0;cursor:pointer;perspective:1000px;transform-origin:50% 90%' + (st === 'closed' && !s.reduce ? ';animation:envWiggle 3.2s ease-in-out 1s infinite' : ''),
-      envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .6s ease;opacity:' + (st === 'fade' ? 0 : 1),
+      envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .9s ease;opacity:' + (st === 'fade' ? 0 : 1),
       envFlapStyle: 'position:absolute;left:0;right:0;top:0;height:62%;background:#f09cb0;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .6s cubic-bezier(.4,.1,.3,1);transform:rotateX(' + (st === 'closed' ? 0 : 180) + 'deg);z-index:' + (st === 'closed' || st === 'flap' ? 4 : 0),
-      envLetterStyle: 'position:absolute;left:7%;right:7%;top:8%;bottom:8%;background:#fffdf8;border:3px solid #2a211b;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;transition:transform .9s cubic-bezier(.2,.9,.25,1.2);transform:translateY(' + (opened ? '-62%' : '0') + ') rotate(' + (opened ? '-2deg' : '0deg') + ')',
+      envLetterStyle: 'position:absolute;left:7%;right:7%;top:8%;bottom:8%;background:#fffdf8;border:3px solid #2a211b;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;transition:transform .9s cubic-bezier(.2,.9,.25,1.2),opacity .8s ease;opacity:' + (st === 'fade' ? 0 : 1) + ';transform:translateY(' + (opened ? '-62%' : '0') + ') rotate(' + (opened ? '-2deg' : '0deg') + ') scale(' + (st === 'fade' ? 1.35 : 1) + ')',
       envSealStyle: 'position:absolute;left:50%;top:62%;width:62px;height:62px;margin:-31px 0 0 -31px;display:flex;align-items:center;justify-content:center;background:#9b2f4f;color:#fff;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-family:"Playpen Sans",cursive;font-weight:800;font-size:18px;z-index:5;transition:transform .35s ease,opacity .35s ease;opacity:' + (st === 'closed' ? 1 : 0) + ';transform:scale(' + (st === 'closed' ? 1 : 1.4) + ')',
       envBtnRef: this.envBtnRef, openEnvelope: this.openEnvelope, skipEnvelope: this.skipEnvelope, replay: this.replay,
       shellRef: this.shellRef,
-      shellStyle: 'position:relative;min-height:100vh;overflow:hidden' + (mobile ? ';width:390px;max-width:100%;margin:0 auto;border-left:2px dashed rgba(42,33,27,.2);border-right:2px dashed rgba(42,33,27,.2)' : ''),
+      shellStyle: 'position:relative;min-height:100vh;overflow:hidden;transition:opacity .9s ease,transform 1s cubic-bezier(.2,.8,.3,1);opacity:' + (st === 'gone' || st === 'fade' ? 1 : 0) + ';transform:' + (st === 'gone' || st === 'fade' ? 'none' : 'translateY(24px) scale(.97)') + (mobile ? ';width:390px;max-width:100%;margin:0 auto;border-left:2px dashed rgba(42,33,27,.2);border-right:2px dashed rgba(42,33,27,.2)' : ''),
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
