@@ -304,12 +304,6 @@ class Component extends DCLogic {
     const r = tape.getBoundingClientRect(), s = this.shellEl.getBoundingClientRect();
     return Math.max(18, Math.round(r.top + r.height / 2 - s.top));
   }
-  // Is the heart (viewport coords) sitting over a card or heading? Then it fades so it doesn't distract.
-  overCard(x, y) {
-    const els = (this.shellEl || document).querySelectorAll('main [data-reveal]');
-    for (const el of els) { const r = el.getBoundingClientRect(); if (x > r.left + 16 && x < r.right - 16 && y > r.top + 16 && y < r.bottom - 16) return true; }
-    return false;
-  }
   measure = () => { if (this.pathEl) { const len = this.pathEl.getTotalLength(); if (len) this.setState({ len }, this.onScroll); } };
   onScroll = () => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -317,7 +311,6 @@ class Component extends DCLogic {
     const p = reduce ? 1 : Math.max(0, Math.min(1, max > 0 ? window.scrollY / max : 0));
     let dot = null;
     if (!reduce && this.pathEl && this.state.len > 1) { const pt = this.pathEl.getPointAtLength(this.state.len * p); dot = { x: pt.x, y: pt.y }; }
-    if (dot && this.shellEl) { const s = this.shellEl.getBoundingClientRect(); dot.dim = this.overCard(s.left + dot.x, s.top + dot.y); }
     this.setState({ progress: p, dot });
   };
 
@@ -446,7 +439,7 @@ class Component extends DCLogic {
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
-      dotStyle: s.dot ? 'position:absolute;z-index:4;transition:opacity .25s;opacity:' + (s.dot.dim ? .45 : 1) + ';left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
+      dotStyle: s.dot ? 'position:absolute;z-index:0;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
       cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
         style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
       cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
