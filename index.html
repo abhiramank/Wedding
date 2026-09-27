@@ -302,10 +302,9 @@ class Component extends DCLogic {
     this.heroEl = hero; hero.style.visibility = 'hidden';
     // The stickers sit above the hero card; float copies of them above the flying card too.
     this.dropClones();
-    this.clones = [...document.querySelectorAll('[data-float],[data-ride]')].map((el) => {
+    this.clones = [...document.querySelectorAll('[data-float]')].map((el) => {
       const b = el.getBoundingClientRect(), c = el.cloneNode(true);
-      c.dataset.cloneOf = el.hasAttribute('data-ride') ? 'ride' : 'float';
-      c.removeAttribute('data-float'); c.removeAttribute('data-ride');
+      c.removeAttribute('data-float');
       Object.assign(c.style, { position: 'fixed', left: b.left + 'px', top: b.top + 'px', right: 'auto', margin: '0', zIndex: '102', pointerEvents: 'none', animation: 'none', opacity: '0', transition: 'opacity .2s ease' });
       document.body.appendChild(c);
       requestAnimationFrame(() => requestAnimationFrame(() => { c.style.opacity = '1'; }));
@@ -319,10 +318,7 @@ class Component extends DCLogic {
     });
     this.t3 = setTimeout(this.finishEnv, 950);
   };
-  dropClones(kind) {
-    (this.clones || []).forEach((c) => { if (!kind || c.dataset.cloneOf === kind) c.remove(); });
-    if (!kind) this.clones = null;
-  }
+  dropClones() { (this.clones || []).forEach((c) => c.remove()); this.clones = null; }
   skipEnvelope = () => { try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {} this.finishEnv(); };
   finishEnv = () => {
     document.body.style.overflow = ''; window.scrollTo(0, 0);
@@ -336,11 +332,11 @@ class Component extends DCLogic {
     }
     // The flying card lands on the real hero: drop its box and crossfade its text out while the hero's content fades in.
     const landed = !!this.state.morph;
-    // Stickers start floating right away; the scroll heart needs the thread rebuilt first, so its copy stays a moment longer.
-    this.dropClones(landed ? 'float' : undefined);
+    // The scroll heart stays hidden until the card has fully landed, then fades in on the tape.
+    this.dropClones();
     this.setState({ stage: 'gone', morph: landed ? { ...this.state.morph, land: true } : null }, () => { this.lastH = null; this.build(); this.setupMotion(); });
     clearTimeout(this.t4);
-    this.t4 = setTimeout(() => { this.setState({ morph: null }); this.dropClones(); }, landed ? 500 : 0);
+    this.t4 = setTimeout(() => this.setState({ morph: null }), landed ? 500 : 0);
   };
   replay = () => { window.scrollTo(0, 0); document.body.style.overflow = 'hidden'; this.setState({ stage: 'closed', morph: null }); };
 
@@ -516,7 +512,7 @@ class Component extends DCLogic {
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
-      dotStyle: s.dot ? 'position:absolute;z-index:' + (s.dot.y < (this.topY || 0) + 24 ? 2 : 0) + ';left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px' : 'display:none',
+      dotStyle: s.dot ? 'position:absolute;z-index:' + (s.dot.y < (this.topY || 0) + 24 ? 2 : 0) + ';left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;transition:opacity .4s ease;opacity:' + (st === 'gone' && !s.morph ? 1 : 0) : 'display:none',
       cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
         style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
       cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
