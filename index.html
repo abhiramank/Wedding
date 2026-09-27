@@ -15,6 +15,7 @@
 <script src="./image-slot.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
 <style>
+html{scrollbar-gutter:stable}
 @media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
 body{margin:0;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;font-family:'Figtree',system-ui,sans-serif;color:#2a211b}
 a{color:#9b2f4f}
@@ -266,7 +267,8 @@ class Component extends DCLogic {
   }
   componentWillUnmount() {
     clearInterval(this.tick); clearInterval(this.qrWait);
-    [this.t1, this.t2, this.t3, this.tb].forEach(clearTimeout);
+    [this.t1, this.t2, this.t3, this.t4, this.tb].forEach(clearTimeout);
+    this.dropClones();
     if (this.heroEl) this.heroEl.style.visibility = '';
     this.ro && this.ro.disconnect(); this.io && this.io.disconnect();
     window.removeEventListener('scroll', this.onScroll);
@@ -297,14 +299,25 @@ class Component extends DCLogic {
     const T = this.letterEl.querySelector('[data-title]');
     const pad = T ? T.getBoundingClientRect().top - L.top - 3 : 20;
     this.heroEl = hero; hero.style.visibility = 'hidden';
+    // The stickers sit above the hero card; float copies of them above the flying card too.
+    this.dropClones();
+    this.clones = [...document.querySelectorAll('[data-float]')].map((el) => {
+      const b = el.getBoundingClientRect(), c = el.cloneNode(true);
+      c.removeAttribute('data-float');
+      Object.assign(c.style, { position: 'fixed', left: b.left + 'px', top: b.top + 'px', right: 'auto', margin: '0', zIndex: '102', pointerEvents: 'none', animation: 'none', opacity: '0', transition: 'opacity .5s ease' });
+      document.body.appendChild(c);
+      requestAnimationFrame(() => requestAnimationFrame(() => { c.style.opacity = '1'; }));
+      return c;
+    });
     this.setState({ stage: 'morph', morph: { x: L.left, y: L.top, w: L.width, h: L.height, pad, big: false } }, () => {
       requestAnimationFrame(() => requestAnimationFrame(() => {
         const H = hero.getBoundingClientRect();
         this.setState({ morph: { x: H.left, y: H.top, w: H.width, h: H.height, pad: 34, big: true } });
       }));
     });
-    this.t3 = setTimeout(this.finishEnv, 1000);
+    this.t3 = setTimeout(this.finishEnv, 950);
   };
+  dropClones() { (this.clones || []).forEach((c) => c.remove()); this.clones = null; }
   skipEnvelope = () => { try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {} this.finishEnv(); };
   finishEnv = () => {
     document.body.style.overflow = ''; window.scrollTo(0, 0);
@@ -316,7 +329,12 @@ class Component extends DCLogic {
       hero.style.visibility = '';
       requestAnimationFrame(() => requestAnimationFrame(() => kids.forEach((k) => { k.style.transition = 'opacity .45s ease'; k.style.opacity = '1'; })));
     }
-    this.setState({ stage: 'gone', morph: null }, () => { this.lastH = null; this.build(); this.setupMotion(); });
+    // The flying card lands on the real hero: drop its box and crossfade its text out while the hero's content fades in.
+    const landed = !!this.state.morph;
+    this.dropClones();
+    this.setState({ stage: 'gone', morph: landed ? { ...this.state.morph, land: true } : null }, () => { this.lastH = null; this.build(); this.setupMotion(); });
+    clearTimeout(this.t4);
+    this.t4 = setTimeout(() => this.setState({ morph: null }), landed ? 500 : 0);
   };
   replay = () => { window.scrollTo(0, 0); document.body.style.overflow = 'hidden'; this.setState({ stage: 'closed', morph: null }); };
 
@@ -476,10 +494,10 @@ class Component extends DCLogic {
       envVisible: st !== 'gone',
       letterRef: this.letterRef,
       morphOn: !!s.morph,
-      morphStyle: s.morph ? 'position:fixed;z-index:101;left:' + s.morph.x + 'px;top:' + s.morph.y + 'px;width:' + s.morph.w + 'px;height:' + s.morph.h + 'px;box-sizing:border-box;background:#fffdf8;border:3px solid #2a211b;border-radius:' + (s.morph.big ? 22 : 8) + 'px;transform:rotate(' + (s.morph.big ? 0 : -2) + 'deg);box-shadow:' + (s.morph.big ? '0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14)' : '0 0 0 0 #fff') + ';transition:left .9s cubic-bezier(.3,.8,.25,1),top .9s cubic-bezier(.3,.8,.25,1),width .9s cubic-bezier(.3,.8,.25,1),height .9s cubic-bezier(.3,.8,.25,1),border-radius .9s,transform .9s,box-shadow .9s' : 'display:none',
+      morphStyle: s.morph ? 'position:fixed;z-index:101;left:' + s.morph.x + 'px;top:' + s.morph.y + 'px;width:' + s.morph.w + 'px;height:' + s.morph.h + 'px;box-sizing:border-box;background:#fffdf8;border:3px solid #2a211b;border-radius:' + (s.morph.big ? 22 : 8) + 'px;transform:rotate(' + (s.morph.big ? 0 : -2) + 'deg);box-shadow:' + (s.morph.big ? '0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14)' : '0 0 0 0 #fff') + ';transition:left .9s cubic-bezier(.3,.8,.25,1),top .9s cubic-bezier(.3,.8,.25,1),width .9s cubic-bezier(.3,.8,.25,1),height .9s cubic-bezier(.3,.8,.25,1),border-radius .9s,transform .9s,box-shadow .9s' + (s.morph.land ? ';background:transparent;border-color:transparent;box-shadow:none' : '') : 'display:none',
       morphInner: 'position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding-top:' + (s.morph ? s.morph.pad : 0) + 'px;transition:padding-top .9s cubic-bezier(.3,.8,.25,1)',
       morphTitle: "font-family:'Caveat Brush',cursive;line-height:1;color:#9b2f4f;transition:font-size .9s cubic-bezier(.3,.8,.25,1);font-size:" + (s.morph && s.morph.big ? 30 : 24) + 'px',
-      morphRest: 'display:flex;flex-direction:column;align-items:center;gap:4px;transition:opacity .35s ease;opacity:' + (s.morph && s.morph.big ? 0 : 1),
+      morphRest: 'display:flex;flex-direction:column;align-items:center;gap:4px;transition:opacity .45s ease;opacity:' + (s.morph && s.morph.land ? 0 : 1),
       envBtnStyle: 'position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;padding:0;cursor:pointer;perspective:1000px;transform-origin:50% 90%' + (st === 'closed' && !s.reduce ? ';animation:envWiggle 3.2s ease-in-out 1s infinite' : ''),
       envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .7s ease;opacity:' + (st === 'morph' ? 0 : 1),
       envFlapStyle: 'position:absolute;left:0;right:0;top:0;height:62%;background:#f09cb0;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .6s cubic-bezier(.4,.1,.3,1);transform:rotateX(' + (st === 'closed' ? 0 : 180) + 'deg);z-index:' + (st === 'closed' || st === 'flap' ? 4 : 0),
