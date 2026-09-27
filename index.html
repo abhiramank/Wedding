@@ -191,14 +191,14 @@ input,textarea,button{font-family:inherit}
 <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
 <form onSubmit="{{ submit }}" novalidate="novalidate" style="display:flex;flex-direction:column;gap:22px">
 <div style="display:flex;flex-direction:column;gap:8px">
-<label for="rsvp-name" style="font-size:18px;font-weight:800">Your name</label>
-<input id="rsvp-name" name="name" autocomplete="name" required="required" aria-invalid="{{ nameInvalid }}" aria-describedby="rsvp-err" value="{{ name }}" onChange="{{ onName }}" style="min-height:52px;box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:0 14px;font-size:18px;color:#2a211b">
+<label for="rsvp-name" style="font-size:18px;font-weight:800">Your name <span style="font-weight:400">{{ nameHint }}</span></label>
+<input id="rsvp-name" name="name" autocomplete="name" aria-required="{{ nameRequired }}" aria-invalid="{{ nameInvalid }}" aria-describedby="rsvp-err" value="{{ name }}" onChange="{{ onName }}" style="min-height:52px;box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:0 14px;font-size:18px;color:#2a211b">
 </div>
 <fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:12px">
-<legend style="padding:0;margin-bottom:12px;font-size:18px;font-weight:800">Which events will you attend?</legend>
+<legend style="padding:0;margin-bottom:12px;font-size:18px;font-weight:800">Which events will you attend? <span style="display:block;font-size:15px;font-weight:400;color:#4a4038">Tap a selected option again to clear it.</span></legend>
 <sc-for list="{{ options }}" as="opt" hint-placeholder-count="4">
 <label style="{{ opt.style }}">
-<input type="radio" name="attend" value="{{ opt.value }}" checked="{{ opt.checked }}" onChange="{{ opt.pick }}" style="width:22px;height:22px;margin:0;flex:none;accent-color:#9b2f4f">
+<input type="radio" name="attend" value="{{ opt.value }}" checked="{{ opt.checked }}" onClick="{{ opt.pick }}" onChange="{{ noop }}" style="width:22px;height:22px;margin:0;flex:none;accent-color:#9b2f4f">
 <span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:18px;font-weight:800">{{ opt.label }}</span><span style="font-size:15px;color:#4a4038">{{ opt.sub }}</span></span>
 </label>
 </sc-for>
@@ -390,8 +390,8 @@ class Component extends DCLogic {
   }
   doneRef = (el) => { if (el) el.focus(); };
   validate(s) {
-    if (!s.name.trim()) return 'Please enter your name.';
     if (!s.attend) return 'Please choose which events you will attend.';
+    if (!s.name.trim()) return 'Please enter your name.';
     return '';
   }
 
@@ -443,11 +443,12 @@ class Component extends DCLogic {
       options: opts.map((o, i) => {
         const on = s.attend === o.value;
         return { ...o, checked: on,
-          pick: () => this.setState({ attend: o.value, error: s.tried ? this.validate({ ...s, attend: o.value }) : '' }),
+          pick: () => { const attend = on ? '' : o.value; this.setState({ attend, error: s.tried ? this.validate({ ...s, attend }) : '' }); },
           style: 'display:flex;gap:14px;align-items:center;min-height:58px;padding:10px 14px;box-sizing:border-box;border:3px solid #2a211b;border-radius:16px;cursor:pointer;transition:transform .15s,background .15s;background:' + (on ? o.bg : '#fff') + ';box-shadow:' + (on ? '0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.16)' : 'none') + ';transform:rotate(' + (on ? (i % 2 ? 1 : -1) : 0) + 'deg)' };
       }),
       showGuests, name: s.name, count: s.count, note: s.note,
-      nameInvalid: s.tried && !s.name.trim() ? 'true' : 'false',
+      nameInvalid: s.tried && s.attend && !s.name.trim() ? 'true' : 'false',
+      nameRequired: s.attend ? 'true' : 'false', nameHint: s.attend ? '(required)' : '(optional)', noop: () => {},
       onName: (e) => { const v = e.target.value; this.setState({ name: v, error: s.tried ? this.validate({ ...s, name: v }) : '' }); },
       onCount: (e) => this.setState({ count: e.target.value }),
       onNote: (e) => this.setState({ note: e.target.value }),
