@@ -75,7 +75,7 @@ input,textarea,button{font-family:inherit}
 <path d="{{ pathD }}" fill="none" stroke="rgba(42,33,27,.16)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 12"></path>
 <path ref="{{ pathRef }}" d="{{ pathD }}" fill="none" stroke="#e7849c" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ dash }}" stroke-dashoffset="{{ dashOffset }}"></path>
 </svg>
-<div style="{{ dotStyle }}">♥</div>
+<div data-ride="1" style="{{ dotStyle }}">♥</div>
 </div>
 </sc-if>
 
@@ -301,9 +301,10 @@ class Component extends DCLogic {
     this.heroEl = hero; hero.style.visibility = 'hidden';
     // The stickers sit above the hero card; float copies of them above the flying card too.
     this.dropClones();
-    this.clones = [...document.querySelectorAll('[data-float]')].map((el) => {
+    this.clones = [...document.querySelectorAll('[data-float],[data-ride]')].map((el) => {
       const b = el.getBoundingClientRect(), c = el.cloneNode(true);
-      c.removeAttribute('data-float');
+      c.dataset.cloneOf = el.hasAttribute('data-ride') ? 'ride' : 'float';
+      c.removeAttribute('data-float'); c.removeAttribute('data-ride');
       Object.assign(c.style, { position: 'fixed', left: b.left + 'px', top: b.top + 'px', right: 'auto', margin: '0', zIndex: '102', pointerEvents: 'none', animation: 'none', opacity: '0', transition: 'opacity .2s ease' });
       document.body.appendChild(c);
       requestAnimationFrame(() => requestAnimationFrame(() => { c.style.opacity = '1'; }));
@@ -317,7 +318,10 @@ class Component extends DCLogic {
     });
     this.t3 = setTimeout(this.finishEnv, 950);
   };
-  dropClones() { (this.clones || []).forEach((c) => c.remove()); this.clones = null; }
+  dropClones(kind) {
+    (this.clones || []).forEach((c) => { if (!kind || c.dataset.cloneOf === kind) c.remove(); });
+    if (!kind) this.clones = null;
+  }
   skipEnvelope = () => { try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {} this.finishEnv(); };
   finishEnv = () => {
     document.body.style.overflow = ''; window.scrollTo(0, 0);
@@ -331,10 +335,11 @@ class Component extends DCLogic {
     }
     // The flying card lands on the real hero: drop its box and crossfade its text out while the hero's content fades in.
     const landed = !!this.state.morph;
-    this.dropClones();
+    // Stickers start floating right away; the scroll heart needs the thread rebuilt first, so its copy stays a moment longer.
+    this.dropClones(landed ? 'float' : undefined);
     this.setState({ stage: 'gone', morph: landed ? { ...this.state.morph, land: true } : null }, () => { this.lastH = null; this.build(); this.setupMotion(); });
     clearTimeout(this.t4);
-    this.t4 = setTimeout(() => this.setState({ morph: null }), landed ? 500 : 0);
+    this.t4 = setTimeout(() => { this.setState({ morph: null }); this.dropClones(); }, landed ? 500 : 0);
   };
   replay = () => { window.scrollTo(0, 0); document.body.style.overflow = 'hidden'; this.setState({ stage: 'closed', morph: null }); };
 
