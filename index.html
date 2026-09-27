@@ -456,7 +456,7 @@ class Component extends DCLogic {
       }),
       showGuests, name: s.name, count: s.count, note: s.note,
       nameInvalid: s.tried && s.attend && !s.name.trim() ? 'true' : 'false',
-      nameRequired: s.attend ? 'true' : 'false', nameHint: s.attend ? '(required)' : '(optional)', noop: () => {},
+      nameRequired: s.attend ? 'true' : 'false', nameHint: s.attend ? '(required)' : '', noop: () => {},
       onName: (e) => { const v = e.target.value; this.setState({ name: v, error: s.tried ? this.validate({ ...s, name: v }) : '' }); },
       onCount: (e) => this.setState({ count: e.target.value }),
       onNote: (e) => this.setState({ note: e.target.value }),
