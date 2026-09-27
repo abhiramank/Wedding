@@ -65,8 +65,8 @@ input,textarea,button{font-family:inherit}
 <main style="{{ mainStyle }}">
 
 <header style="position:relative;padding:34px 0 20px;display:flex;flex-direction:column;align-items:center;gap:30px">
-<svg data-float="1" aria-hidden="true" width="40" height="40" viewBox="0 0 34 34" style="position:absolute;top:18px;left:2%;--r:-12deg"><path d="M17 3l3.6 9.2 9.9.6-7.7 6.3 2.6 9.6L17 23.4 8.6 28.7l2.6-9.6L3.5 12.8l9.9-.6z" fill="#ffe39a" stroke="#2a211b" stroke-width="2.5" stroke-linejoin="round"></path></svg>
-<svg data-float="1" aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" style="position:absolute;top:120px;right:3%;--r:10deg"><path d="M17 29S4 21 4 12a6.5 6.5 0 0 1 13-1 6.5 6.5 0 0 1 13 1c0 9-13 17-13 17z" fill="#f7c6d0" stroke="#2a211b" stroke-width="2.5" stroke-linejoin="round"></path></svg>
+<span data-float="1" aria-hidden="true" style="position:absolute;top:18px;left:2%;--r:-12deg;display:flex;align-items:center;justify-content:center;width:48px;height:48px;background:#ffe39a;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff"><img src="./icons/star.svg" alt="" width="28" height="28" style="display:block"></span>
+<span data-float="1" aria-hidden="true" style="position:absolute;top:120px;right:3%;--r:10deg;display:flex;align-items:center;justify-content:center;width:44px;height:44px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff"><img src="./icons/heart.svg" alt="" width="26" height="26" style="display:block"></span>
 
 <div data-reveal="1" style="position:relative;width:100%;max-width:560px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:40px 22px 30px;box-sizing:border-box;box-shadow:0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center">
 <span aria-hidden="true" style="position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
@@ -96,7 +96,7 @@ input,textarea,button{font-family:inherit}
 </div>
 
 <div data-reveal="1" style="width:100%;max-width:560px;text-align:center">
-<p style="margin:0 0 14px;font-family:'Caveat Brush',cursive;font-size:30px;color:#9b2f4f">{{ cdLabel }}</p>
+<p style="margin:0 0 14px;display:flex;align-items:center;justify-content:center;gap:10px;font-family:'Caveat Brush',cursive;font-size:30px;color:#9b2f4f"><img src="./icons/clock.svg" alt="" width="28" height="28" style="display:block">{{ cdLabel }}</p>
 <div role="timer" aria-label="{{ cdAria }}" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
 <sc-for list="{{ cdUnits }}" as="u" hint-placeholder-count="4">
 <div style="{{ u.style }}"><span style="font-family:'Playpen Sans',cursive;font-size:30px;font-weight:800;line-height:1">{{ u.v }}</span><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase">{{ u.k }}</span></div>
@@ -106,7 +106,7 @@ input,textarea,button{font-family:inherit}
 </header>
 
 <section aria-labelledby="events-h" style="position:relative;padding:40px 0 10px">
-<h2 id="events-h" data-reveal="1" style="margin:0 0 30px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#bfe3cf;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(-8deg)">✿</span>Two celebrations</h2>
+<h2 id="events-h" data-reveal="1" style="margin:0 0 30px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#bfe3cf;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;transform:rotate(-8deg)"><img src="./icons/heart.svg" alt="" width="26" height="26" style="display:block"></span>Two celebrations</h2>
 <div style="display:flex;flex-direction:column;gap:40px;max-width:680px">
 
 <article data-reveal="1" id="ceremony" aria-labelledby="ceremony-h" style="position:relative;scroll-margin-top:20px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:30px 22px 24px;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13);display:flex;flex-direction:column;gap:16px">
@@ -119,10 +119,10 @@ input,textarea,button{font-family:inherit}
 <dt style="font-weight:800">Time</dt><dd style="margin:0">Auspicious ceremony between 9:30 and 10:30 am</dd>
 <dt style="font-weight:800">Venue</dt><dd style="margin:0">Divisha Farm House<br>Bellavi Cross, Kestur, Karnataka 572128</dd>
 </dl>
-<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
-<div style="flex:1 1 200px;display:flex;flex-direction:column;gap:12px">
-<a href="{{ ceremonyMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to Divisha Farm House (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 18px;background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;text-decoration:none;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff">Get directions</a>
-<button type="button" onClick="{{ calCeremony }}" aria-label="Add Wedding Ceremony to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 18px;background:#ffe39a;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">Add to calendar</button>
+<div style="display:flex;flex-wrap:nowrap;gap:clamp(10px,3vw,14px);align-items:center">
+<div style="flex:1 1 0;min-width:0;max-width:340px;display:flex;flex-direction:column;gap:12px">
+<a href="{{ ceremonyMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to Divisha Farm House (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 12px;text-align:center;font-size:clamp(15px,4vw,17px);background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-weight:800;text-decoration:none;gap:8px;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff"><img src="./icons/location-pin.svg" alt="" width="20" height="20" style="display:block;filter:invert(1)">Get directions</a>
+<button type="button" onClick="{{ calCeremony }}" aria-label="Add Wedding Ceremony to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 12px;text-align:center;font-size:clamp(15px,4vw,17px);background:#ffe39a;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s" style-hover="transform:translateY(-2px)"><img src="./icons/calendar.svg" alt="" width="20" height="20" style="display:block">Add to calendar</button>
 </div>
 <a href="{{ ceremonyMapUrl }}" target="_blank" rel="noopener" aria-label="Map QR code for Divisha Farm House" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 4px;background:#fff;border:3px solid #2a211b;border-radius:6px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.14);transform:rotate(3deg);color:#2a211b;text-decoration:none">
 <span aria-hidden="true" style="line-height:0">{{ ceremonyQr }}</span>
@@ -141,10 +141,10 @@ input,textarea,button{font-family:inherit}
 <dt style="font-weight:800">Time</dt><dd style="margin:0">From 5:00 pm</dd>
 <dt style="font-weight:800">Venue</dt><dd style="margin:0">Parish Hall, St. George Orthodox Catholicate Simhasana Church<br>Thattayil P.O., Keerukuzhy</dd>
 </dl>
-<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
-<div style="flex:1 1 200px;display:flex;flex-direction:column;gap:12px">
-<a href="{{ receptionMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to the Parish Hall (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 18px;background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;text-decoration:none;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff">Get directions</a>
-<button type="button" onClick="{{ calReception }}" aria-label="Add Wedding Reception to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 18px;background:#bfe3cf;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">Add to calendar</button>
+<div style="display:flex;flex-wrap:nowrap;gap:clamp(10px,3vw,14px);align-items:center">
+<div style="flex:1 1 0;min-width:0;max-width:340px;display:flex;flex-direction:column;gap:12px">
+<a href="{{ receptionMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to the Parish Hall (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 12px;text-align:center;font-size:clamp(15px,4vw,17px);background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-weight:800;text-decoration:none;gap:8px;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff"><img src="./icons/location-pin.svg" alt="" width="20" height="20" style="display:block;filter:invert(1)">Get directions</a>
+<button type="button" onClick="{{ calReception }}" aria-label="Add Wedding Reception to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 12px;text-align:center;font-size:clamp(15px,4vw,17px);background:#bfe3cf;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s" style-hover="transform:translateY(-2px)"><img src="./icons/calendar.svg" alt="" width="20" height="20" style="display:block">Add to calendar</button>
 </div>
 <a href="{{ receptionMapUrl }}" target="_blank" rel="noopener" aria-label="Map QR code for the Parish Hall" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 4px;background:#fff;border:3px solid #2a211b;border-radius:6px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.14);transform:rotate(-3deg);color:#2a211b;text-decoration:none">
 <span aria-hidden="true" style="line-height:0">{{ receptionQr }}</span>
@@ -157,7 +157,7 @@ input,textarea,button{font-family:inherit}
 </section>
 
 <section aria-labelledby="dates-h" style="padding:34px 0 10px">
-<h2 id="dates-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#c7dcf5;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(8deg)">☾</span>Six days apart</h2>
+<h2 id="dates-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#c7dcf5;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;transform:rotate(8deg)"><img src="./icons/calendar.svg" alt="" width="26" height="26" style="display:block"></span>Six days apart</h2>
 <div data-reveal="1" style="position:relative;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:24px 14px 22px;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13);max-width:680px;box-sizing:border-box">
 <p style="margin:0 0 6px;text-align:center;font-size:18px;font-weight:800">November 2026</p>
 <p style="margin:0 0 18px;text-align:center;font-family:'Caveat Brush',cursive;font-size:24px;color:#9b2f4f">vows on the 5th → party on the 11th</p>
@@ -174,7 +174,7 @@ input,textarea,button{font-family:inherit}
 </section>
 
 <section id="rsvp" aria-labelledby="rsvp-h" style="scroll-margin-top:20px;padding:40px 0 30px">
-<h2 id="rsvp-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(-6deg)">✉</span>Will you join us?</h2>
+<h2 id="rsvp-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;transform:rotate(-6deg)"><img src="./icons/mail.svg" alt="" width="26" height="26" style="display:block"></span>Will you join us?</h2>
 <div data-reveal="1" style="position:relative;max-width:600px;background-color:#fffdf7;background-image:linear-gradient(90deg,transparent 34px,#f2a3b3 34px,#f2a3b3 36px,transparent 36px),repeating-linear-gradient(180deg,transparent 0 35px,#dfe7f3 35px 37px);border:3px solid #2a211b;border-radius:14px;padding:30px 20px 28px 52px;box-sizing:border-box;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13)">
 <span aria-hidden="true" style="position:absolute;top:-14px;left:50%;width:120px;height:28px;margin-left:-60px;transform:rotate(2deg);background:repeating-linear-gradient(45deg,rgba(199,220,245,.95) 0 8px,rgba(255,255,255,.75) 8px 16px)"></span>
 
@@ -366,7 +366,7 @@ class Component extends DCLogic {
     const q = window.qrcode(0, 'M'); q.addData(url); q.make();
     const n = q.getModuleCount(), cells = [];
     for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) cells.push(React.createElement('div', { key: r + '-' + c, style: { background: q.isDark(r, c) ? '#2a211b' : 'transparent' } }));
-    return (this.qrCache[url] = React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + n + ',1fr)', width: 96, height: 96 } }, cells));
+    return (this.qrCache[url] = React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + n + ',1fr)', width: 'clamp(64px,20vw,96px)', aspectRatio: '1' } }, cells));
   }
   doneRef = (el) => { if (el) el.focus(); };
   validate(s) {
