@@ -34,10 +34,10 @@ input,textarea,button{font-family:inherit}
 </helmet>
 
 <sc-if value="{{ envVisible }}" hint-placeholder-val="{{ false }}">
-<div role="dialog" aria-modal="true" aria-labelledby="env-title" style="{{ envOverlayStyle }}">
+<div role="dialog" aria-modal="true" aria-labelledby="env-title" tabindex="-1" ref="{{ envBtnRef }}" style="{{ envOverlayStyle }}">
 <div style="display:flex;flex-direction:column;align-items:center;gap:26px;padding:24px;max-width:100%">
 <p id="env-title" style="margin:0;font-family:'Caveat Brush',cursive;font-size:34px;color:#9b2f4f;text-align:center">a little something for you</p>
-<button type="button" ref="{{ envBtnRef }}" onClick="{{ openEnvelope }}" aria-label="Open the wedding invitation" style="{{ envBtnStyle }}">
+<button type="button" onClick="{{ openEnvelope }}" aria-label="Open the wedding invitation" style="{{ envBtnStyle }}">
 <span style="position:absolute;inset:0;background:#f4a9ba;border:3px solid #2a211b;border-radius:12px;z-index:1;box-shadow:0 0 0 6px #fff,8px 10px 0 6px rgba(42,33,27,.16)"></span>
 <span ref="{{ letterRef }}" style="{{ envLetterStyle }}">
 <span aria-hidden="true" style="position:absolute;top:-14px;left:50%;width:96px;height:24px;margin-left:-48px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
@@ -502,8 +502,8 @@ class Component extends DCLogic {
       morphTitle: "font-family:'Caveat Brush',cursive;line-height:1;color:#9b2f4f;transition:font-size .9s cubic-bezier(.3,.8,.25,1);font-size:" + (s.morph && s.morph.big ? 30 : 24) + 'px',
       morphTape: 'position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25);visibility:' + (s.morph && s.morph.land ? 'hidden' : 'visible'),
       morphRest: 'display:flex;flex-direction:column;align-items:center;gap:4px;transition:opacity .45s ease;opacity:' + (s.morph && s.morph.land ? 0 : 1),
-      envBtnStyle: 'position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;padding:0;cursor:pointer;perspective:1000px;transform-origin:50% 90%' + (st === 'closed' && !s.reduce ? ';animation:envWiggle 3.2s ease-in-out 1s infinite' : ''),
-      envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .7s ease;opacity:' + (st === 'morph' ? 0 : 1),
+      envBtnStyle: 'position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;border-radius:12px;outline-offset:8px;padding:0;cursor:pointer;perspective:1000px;transform-origin:50% 90%' + (st === 'closed' && !s.reduce ? ';animation:envWiggle 3.2s ease-in-out 1s infinite' : ''),
+      envOverlayStyle: 'position:fixed;inset:0;outline:none;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .7s ease;opacity:' + (st === 'morph' ? 0 : 1),
       envFlapStyle: 'position:absolute;left:0;right:0;top:0;height:62%;background:#f09cb0;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .6s cubic-bezier(.4,.1,.3,1);transform:rotateX(' + (st === 'closed' ? 0 : 180) + 'deg);z-index:' + (st === 'closed' || st === 'flap' ? 4 : 0),
       envLetterStyle: 'position:absolute;left:7%;right:7%;top:8%;bottom:8%;background:#fffdf8;border:3px solid #2a211b;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;transition:transform .9s cubic-bezier(.2,.9,.25,1.2);visibility:' + (st === 'morph' ? 'hidden' : 'visible') + ';transform:translateY(' + (opened ? '-62%' : '0') + ') rotate(' + (opened ? '-2deg' : '0deg') + ')',
       envSealStyle: 'position:absolute;left:50%;top:62%;width:62px;height:62px;margin:-31px 0 0 -31px;display:flex;align-items:center;justify-content:center;background:#9b2f4f;color:#fff;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-family:"Playpen Sans",cursive;font-weight:800;font-size:18px;z-index:5;transition:transform .35s ease,opacity .35s ease;opacity:' + (st === 'closed' ? 1 : 0) + ';transform:scale(' + (st === 'closed' ? 1 : 1.4) + ')',
