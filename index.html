@@ -64,7 +64,7 @@ input,textarea,button{font-family:inherit}
 
 <main style="{{ mainStyle }}">
 
-<header style="position:relative;padding:64px 0 20px;display:flex;flex-direction:column;align-items:center;gap:30px">
+<header style="position:relative;padding:34px 0 20px;display:flex;flex-direction:column;align-items:center;gap:30px">
 <span data-float="1" aria-hidden="true" style="position:absolute;top:8px;left:max(0px,calc(50% - 300px));z-index:3;--r:-12deg;display:flex;align-items:center;justify-content:center;width:60px;height:60px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.16);background:#ffe39a;border:3px solid #2a211b;border-radius:50%"><img src="./icons/star.svg" alt="" width="36" height="36" style="display:block"></span>
 <span data-float="1" aria-hidden="true" style="position:absolute;top:150px;right:max(0px,calc(50% - 300px));z-index:3;--r:10deg;display:flex;align-items:center;justify-content:center;width:56px;height:56px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.16);background:#f7c6d0;border:3px solid #2a211b;border-radius:50%"><img src="./icons/heart.svg" alt="" width="34" height="34" style="display:block"></span>
 
@@ -289,20 +289,21 @@ class Component extends DCLogic {
     this.lastH = h; this.lastW = w;
     const narrow = w <= (this.props.breakpoint ?? 600);
     if (narrow !== this.state.narrow) this.setState({ narrow });
-    // The thread starts centred just above the hero card's washi tape, so the heart is visible at the top.
+    // The thread starts on the hero card's washi tape; the heart sits on top of the tape there, then slips behind the cards.
     const cx = w / 2, amp = Math.min(w * 0.36, 300), wave = narrow ? 560 : 760, top = this.tapeY();
     let d = '';
     for (let y = top; y <= h; y += 16) {
       const t = y - top, x = cx + amp * Math.sin((t / wave) * Math.PI * 2) + amp * 0.25 * Math.sin((t / (wave * 0.37)) * Math.PI * 2);
       d += (d ? ' L' : 'M') + x.toFixed(1) + ' ' + y;
     }
+    this.topY = top;
     this.setState({ pathD: d }, () => requestAnimationFrame(this.measure));
   };
   tapeY() {
     const tape = this.shellEl && this.shellEl.querySelector('[data-tape]');
     if (!tape) return 28;
     const r = tape.getBoundingClientRect(), s = this.shellEl.getBoundingClientRect();
-    return Math.max(22, Math.round(r.top - 20 - s.top));
+    return Math.max(20, Math.round(r.top + r.height / 2 - s.top));
   }
   measure = () => { if (this.pathEl) { const len = this.pathEl.getTotalLength(); if (len) this.setState({ len }, this.onScroll); } };
   onScroll = () => {
@@ -439,7 +440,7 @@ class Component extends DCLogic {
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
-      dotStyle: s.dot ? 'position:absolute;z-index:0;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
+      dotStyle: s.dot ? 'position:absolute;z-index:' + (s.dot.y < (this.topY || 0) + 24 ? 2 : 0) + ';left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
       cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
         style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
       cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
