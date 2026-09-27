@@ -304,7 +304,7 @@ class Component extends DCLogic {
     this.clones = [...document.querySelectorAll('[data-float]')].map((el) => {
       const b = el.getBoundingClientRect(), c = el.cloneNode(true);
       c.removeAttribute('data-float');
-      Object.assign(c.style, { position: 'fixed', left: b.left + 'px', top: b.top + 'px', right: 'auto', margin: '0', zIndex: '102', pointerEvents: 'none', animation: 'none', opacity: '0', transition: 'opacity .5s ease' });
+      Object.assign(c.style, { position: 'fixed', left: b.left + 'px', top: b.top + 'px', right: 'auto', margin: '0', zIndex: '102', pointerEvents: 'none', animation: 'none', opacity: '0', transition: 'opacity .2s ease' });
       document.body.appendChild(c);
       requestAnimationFrame(() => requestAnimationFrame(() => { c.style.opacity = '1'; }));
       return c;
@@ -494,7 +494,7 @@ class Component extends DCLogic {
       envVisible: st !== 'gone',
       letterRef: this.letterRef,
       morphOn: !!s.morph,
-      morphStyle: s.morph ? 'position:fixed;z-index:101;left:' + s.morph.x + 'px;top:' + s.morph.y + 'px;width:' + s.morph.w + 'px;height:' + s.morph.h + 'px;box-sizing:border-box;background:#fffdf8;border:3px solid #2a211b;border-radius:' + (s.morph.big ? 22 : 8) + 'px;transform:rotate(' + (s.morph.big ? 0 : -2) + 'deg);box-shadow:' + (s.morph.big ? '0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14)' : '0 0 0 0 #fff') + ';transition:left .9s cubic-bezier(.3,.8,.25,1),top .9s cubic-bezier(.3,.8,.25,1),width .9s cubic-bezier(.3,.8,.25,1),height .9s cubic-bezier(.3,.8,.25,1),border-radius .9s,transform .9s,box-shadow .9s' + (s.morph.land ? ';background:transparent;border-color:transparent;box-shadow:none' : '') : 'display:none',
+      morphStyle: s.morph ? 'position:fixed;z-index:101;left:' + s.morph.x + 'px;top:' + s.morph.y + 'px;width:' + s.morph.w + 'px;height:' + s.morph.h + 'px;box-sizing:border-box;background:#fffdf8;border:3px solid #2a211b;border-radius:' + (s.morph.big ? 22 : 8) + 'px;transform:rotate(' + (s.morph.big ? 0 : -2) + 'deg);box-shadow:0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14);transition:left .9s cubic-bezier(.3,.8,.25,1),top .9s cubic-bezier(.3,.8,.25,1),width .9s cubic-bezier(.3,.8,.25,1),height .9s cubic-bezier(.3,.8,.25,1),border-radius .9s,transform .9s' + (s.morph.land ? ';background:transparent;border-color:transparent;box-shadow:none' : '') : 'display:none',
       morphInner: 'position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding-top:' + (s.morph ? s.morph.pad : 0) + 'px;transition:padding-top .9s cubic-bezier(.3,.8,.25,1)',
       morphTitle: "font-family:'Caveat Brush',cursive;line-height:1;color:#9b2f4f;transition:font-size .9s cubic-bezier(.3,.8,.25,1);font-size:" + (s.morph && s.morph.big ? 30 : 24) + 'px',
       morphRest: 'display:flex;flex-direction:column;align-items:center;gap:4px;transition:opacity .45s ease;opacity:' + (s.morph && s.morph.land ? 0 : 1),
