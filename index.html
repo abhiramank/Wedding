@@ -28,6 +28,7 @@ input,textarea,button{font-family:inherit}
 @keyframes burst{0%{transform:translate(0,0) rotate(0) scale(.5);opacity:1}100%{transform:translate(var(--bx),var(--by)) rotate(var(--spin)) scale(1);opacity:0}}
 @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
 @keyframes envWiggle{0%,86%,100%{transform:rotate(0) translateY(0)}89%{transform:rotate(-3deg) translateY(-4px)}92%{transform:rotate(3deg) translateY(-4px)}95%{transform:rotate(-1.5deg) translateY(-2px)}}
+@keyframes sway{0%,100%{transform:rotate(var(--r,0deg))}50%{transform:rotate(calc(var(--r,0deg) + 14deg))}}
 @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
 </style>
 </helmet>
@@ -387,7 +388,8 @@ class Component extends DCLogic {
     this.io && this.io.disconnect();
     const floats = [...document.querySelectorAll('[data-float]')], wob = [...document.querySelectorAll('[data-wobble]')], nudge = [...document.querySelectorAll('[data-nudge]')];
     if (this.state.reduce) { [...floats, ...wob, ...nudge].forEach((el) => (el.style.animation = '')); return; }
-    floats.forEach((el, i) => (el.style.animation = 'floaty ' + (4 + i) + 's ease-in-out infinite'));
+    // The stickers overlap the card's outline; rotating in place (they're round) keeps that outline steady.
+    floats.forEach((el, i) => (el.style.animation = 'sway ' + (4 + i) + 's ease-in-out infinite'));
     wob.forEach((el) => (el.style.animation = 'wobble 5s ease-in-out infinite'));
     nudge.forEach((el) => (el.style.animation = 'nudge 1.2s ease-in-out infinite'));
     this.io = new IntersectionObserver((es) => es.forEach((e) => {
