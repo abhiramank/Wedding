@@ -542,7 +542,7 @@ class Component extends DCLogic {
         const count = String(Math.max(1, parseInt(s.count, 10) || 1));
         const endpoint = (this.props.rsvpEndpoint || 'https://script.google.com/macros/s/AKfycbzCos9iIsnVn-sv557--dYrFmFP_DmYDqorhyNnNprB32Ph4f5-FuIoJSgKsiZ8zME6/exec').trim();
         if (endpoint) {
-          this.setState({ sending: true, error: '' });
+          if (navigator.onLine === false) { this.setState({ error: "You're offline. Check your connection and try again." }); return; }
           const labels = { both: 'Attending both', ceremony: 'Ceremony only', reception: 'Reception only', neither: 'Unable to attend' };
           const body = new URLSearchParams({
             name: s.name.trim(), response: labels[s.attend],
@@ -550,12 +550,11 @@ class Component extends DCLogic {
             reception: s.attend === 'both' || s.attend === 'reception' ? 'Yes' : 'No',
             message: s.note.trim(),
           });
-          try {
-            await fetch(endpoint, { method: 'POST', mode: 'no-cors', body });
-          } catch (x) {
-            this.setState({ sending: false, error: "That didn't go through. Check your connection and try again." });
-            return;
-          }
+          // Apps Script takes a second or two to answer and its reply can't be read (no-cors) anyway,
+          // so send in the background and thank the guest straight away. sendBeacon survives the tab closing.
+          let queued = false;
+          try { queued = navigator.sendBeacon && navigator.sendBeacon(endpoint, body); } catch (x) {}
+          if (!queued) fetch(endpoint, { method: 'POST', mode: 'no-cors', body, keepalive: true }).catch(() => {});
         }
         if (s.attend !== 'neither') this.burst();
         this.setState({ sending: false, sent: true, error: '', count, savedLocally: !endpoint });
