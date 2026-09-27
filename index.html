@@ -69,7 +69,7 @@ input,textarea,button{font-family:inherit}
 <span data-float="1" aria-hidden="true" style="position:absolute;top:150px;right:max(0px,calc(50% - 300px));z-index:3;--r:10deg;display:flex;align-items:center;justify-content:center;width:56px;height:56px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.16);background:#f7c6d0;border:3px solid #2a211b;border-radius:50%"><img src="./icons/heart.svg" alt="" width="34" height="34" style="display:block"></span>
 
 <div data-reveal="1" style="position:relative;width:100%;max-width:560px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:40px 22px 30px;box-sizing:border-box;box-shadow:0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center">
-<span aria-hidden="true" style="position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
+<span data-tape="1" aria-hidden="true" style="position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
 
 <p style="margin:-6px 0 0;font-family:'Caveat Brush',cursive;font-size:30px;line-height:1;color:#9b2f4f">you're invited!</p>
 <div data-wobble="1" style="width:min(100%,320px);background:#fff;border:3px solid #2a211b;border-radius:6px;padding:10px 10px 4px;box-sizing:border-box;box-shadow:0 0 0 5px #fff,6px 8px 0 5px rgba(42,33,27,.14)">
@@ -289,15 +289,27 @@ class Component extends DCLogic {
     this.lastH = h; this.lastW = w;
     const narrow = w <= (this.props.breakpoint ?? 600);
     if (narrow !== this.state.narrow) this.setState({ narrow });
-    // Start below the top edge so the heart marker is not cut off at the top.
-    const cx = w / 2, amp = Math.min(w * 0.36, 300), wave = narrow ? 560 : 760, top = 28;
+    // The thread starts centred on the hero card's washi tape.
+    const cx = w / 2, amp = Math.min(w * 0.36, 300), wave = narrow ? 560 : 760, top = this.tapeY();
     let d = '';
     for (let y = top; y <= h; y += 16) {
-      const x = cx + amp * Math.sin((y / wave) * Math.PI * 2) + amp * 0.25 * Math.sin((y / (wave * 0.37)) * Math.PI * 2);
+      const t = y - top, x = cx + amp * Math.sin((t / wave) * Math.PI * 2) + amp * 0.25 * Math.sin((t / (wave * 0.37)) * Math.PI * 2);
       d += (d ? ' L' : 'M') + x.toFixed(1) + ' ' + y;
     }
     this.setState({ pathD: d }, () => requestAnimationFrame(this.measure));
   };
+  tapeY() {
+    const tape = this.shellEl && this.shellEl.querySelector('[data-tape]');
+    if (!tape) return 28;
+    const r = tape.getBoundingClientRect(), s = this.shellEl.getBoundingClientRect();
+    return Math.max(18, Math.round(r.top + r.height / 2 - s.top));
+  }
+  // Is the heart (viewport coords) sitting over a card or heading? Then it fades so it doesn't distract.
+  overCard(x, y) {
+    const els = (this.shellEl || document).querySelectorAll('main [data-reveal]');
+    for (const el of els) { const r = el.getBoundingClientRect(); if (x > r.left + 16 && x < r.right - 16 && y > r.top + 16 && y < r.bottom - 16) return true; }
+    return false;
+  }
   measure = () => { if (this.pathEl) { const len = this.pathEl.getTotalLength(); if (len) this.setState({ len }, this.onScroll); } };
   onScroll = () => {
     const max = document.documentElement.scrollHeight - window.innerHeight;
@@ -305,6 +317,7 @@ class Component extends DCLogic {
     const p = reduce ? 1 : Math.max(0, Math.min(1, max > 0 ? window.scrollY / max : 0));
     let dot = null;
     if (!reduce && this.pathEl && this.state.len > 1) { const pt = this.pathEl.getPointAtLength(this.state.len * p); dot = { x: pt.x, y: pt.y }; }
+    if (dot && this.shellEl) { const s = this.shellEl.getBoundingClientRect(); dot.dim = this.overCard(s.left + dot.x, s.top + dot.y); }
     this.setState({ progress: p, dot });
   };
 
@@ -433,7 +446,7 @@ class Component extends DCLogic {
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
-      dotStyle: s.dot ? 'position:absolute;z-index:4;opacity:.45;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
+      dotStyle: s.dot ? 'position:absolute;z-index:4;transition:opacity .25s;opacity:' + (s.dot.dim ? .45 : 1) + ';left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
       cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
         style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
       cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
