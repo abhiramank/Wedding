@@ -1,0 +1,15 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [
+        {
+          "type": "host",
+          "value": "wedding-umber-beta.vercel.app"
+        }
+      ],
+      "destination": "https://vj-wedding-invite.vercel.app/$1",
+      "permanent": true
+    }
+  ]
+}
