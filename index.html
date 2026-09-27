@@ -289,8 +289,8 @@ class Component extends DCLogic {
     this.lastH = h; this.lastW = w;
     const narrow = w <= (this.props.breakpoint ?? 600);
     if (narrow !== this.state.narrow) this.setState({ narrow });
-    // Keep the heart marker (30px + outline) fully on screen: start below the top edge, stay inside the sides.
-    const cx = w / 2, amp = Math.min((w / 2 - 24) / 1.25, 300), wave = narrow ? 560 : 760, top = 28;
+    // Start below the top edge so the heart marker is not cut off at the top.
+    const cx = w / 2, amp = Math.min(w * 0.36, 300), wave = narrow ? 560 : 760, top = 28;
     let d = '';
     for (let y = top; y <= h; y += 16) {
       const x = cx + amp * Math.sin((y / wave) * Math.PI * 2) + amp * 0.25 * Math.sin((y / (wave * 0.37)) * Math.PI * 2);
@@ -433,7 +433,7 @@ class Component extends DCLogic {
       mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
       showThread: this.props.showThread ?? true,
       pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
-      dotStyle: s.dot ? 'position:absolute;z-index:4;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
+      dotStyle: s.dot ? 'position:absolute;z-index:4;opacity:.45;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
       cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
         style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
       cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
