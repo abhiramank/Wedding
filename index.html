@@ -59,7 +59,7 @@ input,textarea,button{font-family:inherit}
 
 <sc-if value="{{ morphOn }}" hint-placeholder-val="{{ false }}">
 <div aria-hidden="true" style="{{ morphStyle }}">
-<span aria-hidden="true" style="position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
+<span aria-hidden="true" style="{{ morphTape }}"></span>
 <div style="{{ morphInner }}">
 <span style="{{ morphTitle }}">you're invited!</span>
 <span style="{{ morphRest }}"><span style="font-family:'Playpen Sans',cursive;font-weight:800;font-size:26px;line-height:1.1;color:#2a211b">Vishnu &amp; Jhansi</span>
@@ -500,6 +500,7 @@ class Component extends DCLogic {
       morphStyle: s.morph ? 'position:fixed;z-index:101;left:' + s.morph.x + 'px;top:' + s.morph.y + 'px;width:' + s.morph.w + 'px;height:' + s.morph.h + 'px;box-sizing:border-box;background:#fffdf8;border:3px solid #2a211b;border-radius:' + (s.morph.big ? 22 : 8) + 'px;transform:rotate(' + (s.morph.big ? 0 : -2) + 'deg);box-shadow:0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14);transition:left .9s cubic-bezier(.3,.8,.25,1),top .9s cubic-bezier(.3,.8,.25,1),width .9s cubic-bezier(.3,.8,.25,1),height .9s cubic-bezier(.3,.8,.25,1),border-radius .9s,transform .9s' + (s.morph.land ? ';background:transparent;border-color:transparent;box-shadow:none' : '') : 'display:none',
       morphInner: 'position:absolute;left:0;right:0;top:0;display:flex;flex-direction:column;align-items:center;gap:4px;text-align:center;padding-top:' + (s.morph ? s.morph.pad : 0) + 'px;transition:padding-top .9s cubic-bezier(.3,.8,.25,1)',
       morphTitle: "font-family:'Caveat Brush',cursive;line-height:1;color:#9b2f4f;transition:font-size .9s cubic-bezier(.3,.8,.25,1);font-size:" + (s.morph && s.morph.big ? 30 : 24) + 'px',
+      morphTape: 'position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25);visibility:' + (s.morph && s.morph.land ? 'hidden' : 'visible'),
       morphRest: 'display:flex;flex-direction:column;align-items:center;gap:4px;transition:opacity .45s ease;opacity:' + (s.morph && s.morph.land ? 0 : 1),
       envBtnStyle: 'position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;padding:0;cursor:pointer;perspective:1000px;transform-origin:50% 90%' + (st === 'closed' && !s.reduce ? ';animation:envWiggle 3.2s ease-in-out 1s infinite' : ''),
       envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .7s ease;opacity:' + (st === 'morph' ? 0 : 1),
