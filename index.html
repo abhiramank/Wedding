@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Vishnu &amp; Jhansi · Wedding Invitation</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics="">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playpen+Sans:wght@500;700;800&amp;family=Caveat+Brush&amp;family=Figtree:wght@400;600;700;800&amp;family=Manjari:wght@700&amp;display=swap" rel="stylesheet">
+<script src="./image-slot.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/qrcode-generator@1.4.4/qrcode.js"></script>
+<style>
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;font-family:'Figtree',system-ui,sans-serif;color:#2a211b}
+a{color:#9b2f4f}
+a:hover{color:#6e1d36}
+:focus-visible{outline:3px solid #2a211b;outline-offset:4px}
+input,textarea,button{font-family:inherit}
+::selection{background:#f7c6d0}
+@keyframes floaty{0%,100%{transform:translateY(0) rotate(var(--r,0deg))}50%{transform:translateY(-8px) rotate(calc(var(--r,0deg) + 8deg))}}
+@keyframes wobble{0%,100%{transform:rotate(-2deg)}50%{transform:rotate(2deg)}}
+@keyframes burst{0%{transform:translate(0,0) rotate(0) scale(.5);opacity:1}100%{transform:translate(var(--bx),var(--by)) rotate(var(--spin)) scale(1);opacity:0}}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.2)}}
+@keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+</style>
+</helmet>
+
+<sc-if value="{{ envVisible }}" hint-placeholder-val="{{ false }}">
+<div role="dialog" aria-modal="true" aria-labelledby="env-title" style="{{ envOverlayStyle }}">
+<div style="display:flex;flex-direction:column;align-items:center;gap:26px;padding:24px;max-width:100%">
+<p id="env-title" style="margin:0;font-family:'Caveat Brush',cursive;font-size:34px;color:#9b2f4f;text-align:center">a little something for you</p>
+<button type="button" ref="{{ envBtnRef }}" onClick="{{ openEnvelope }}" aria-label="Open the wedding invitation" style="position:relative;width:min(84vw,380px);aspect-ratio:1.45;background:none;border:0;padding:0;cursor:pointer;perspective:1000px">
+<span style="position:absolute;inset:0;background:#f4a9ba;border:3px solid #2a211b;border-radius:12px;z-index:1;box-shadow:0 0 0 6px #fff,8px 10px 0 6px rgba(42,33,27,.16)"></span>
+<span style="{{ envLetterStyle }}">
+<span style="font-family:'Caveat Brush',cursive;font-size:22px;color:#9b2f4f">you're invited</span>
+<span style="font-family:'Playpen Sans',cursive;font-weight:800;font-size:26px;line-height:1.1;color:#2a211b">Vishnu &amp; Jhansi</span>
+</span>
+<span style="position:absolute;inset:0;background:#f7c6d0;clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);border-radius:12px;z-index:3"></span>
+<svg viewBox="0 0 100 69" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;overflow:visible" aria-hidden="true"><path d="M1 67L42 34M99 67L58 34" fill="none" stroke="#2a211b" stroke-width="2.4" stroke-linecap="round" vector-effect="non-scaling-stroke"></path></svg>
+<span style="{{ envFlapStyle }}"><svg viewBox="0 0 100 62" preserveAspectRatio="none" style="position:absolute;inset:0;width:100%;height:100%;overflow:visible" aria-hidden="true"><path d="M1 1L50 60L99 1" fill="none" stroke="#2a211b" stroke-width="3" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path></svg></span>
+<span style="{{ envSealStyle }}">V&amp;J</span>
+</button>
+<p style="margin:0;font-size:18px;font-weight:700;display:flex;align-items:center;gap:8px"><span data-nudge="1" aria-hidden="true" style="display:inline-block">↑</span> Tap the envelope to open</p>
+</div>
+</div>
+</sc-if>
+
+<div ref="{{ shellRef }}" style="{{ shellStyle }}">
+
+<sc-if value="{{ showThread }}" hint-placeholder-val="{{ false }}">
+<div aria-hidden="true" style="position:absolute;inset:0;pointer-events:none;z-index:0">
+<svg width="100%" height="100%" style="position:absolute;top:0;left:0;overflow:visible">
+<path d="{{ pathD }}" fill="none" stroke="rgba(42,33,27,.16)" stroke-width="3" stroke-linecap="round" stroke-dasharray="2 12"></path>
+<path ref="{{ pathRef }}" d="{{ pathD }}" fill="none" stroke="#e7849c" stroke-width="6" stroke-linecap="round" stroke-dasharray="{{ dash }}" stroke-dashoffset="{{ dashOffset }}"></path>
+</svg>
+<div style="{{ dotStyle }}">♥</div>
+</div>
+</sc-if>
+
+<main style="{{ mainStyle }}">
+
+<header style="position:relative;padding:34px 0 20px;display:flex;flex-direction:column;align-items:center;gap:30px">
+<svg data-float="1" aria-hidden="true" width="40" height="40" viewBox="0 0 34 34" style="position:absolute;top:18px;left:2%;--r:-12deg"><path d="M17 3l3.6 9.2 9.9.6-7.7 6.3 2.6 9.6L17 23.4 8.6 28.7l2.6-9.6L3.5 12.8l9.9-.6z" fill="#ffe39a" stroke="#2a211b" stroke-width="2.5" stroke-linejoin="round"></path></svg>
+<svg data-float="1" aria-hidden="true" width="34" height="34" viewBox="0 0 34 34" style="position:absolute;top:120px;right:3%;--r:10deg"><path d="M17 29S4 21 4 12a6.5 6.5 0 0 1 13-1 6.5 6.5 0 0 1 13 1c0 9-13 17-13 17z" fill="#f7c6d0" stroke="#2a211b" stroke-width="2.5" stroke-linejoin="round"></path></svg>
+
+<div data-reveal="1" style="position:relative;width:100%;max-width:560px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:40px 22px 30px;box-sizing:border-box;box-shadow:0 0 0 7px #fff,9px 11px 0 7px rgba(42,33,27,.14);display:flex;flex-direction:column;align-items:center;gap:18px;text-align:center">
+<span aria-hidden="true" style="position:absolute;top:-16px;left:50%;width:130px;height:30px;margin-left:-65px;transform:rotate(-3deg);background:repeating-linear-gradient(45deg,rgba(191,227,207,.9) 0 8px,rgba(255,255,255,.7) 8px 16px);border-left:2px dashed rgba(42,33,27,.25);border-right:2px dashed rgba(42,33,27,.25)"></span>
+
+<p style="margin:-6px 0 0;font-family:'Caveat Brush',cursive;font-size:30px;line-height:1;color:#9b2f4f">you're invited!</p>
+<div data-wobble="1" style="width:min(100%,320px);background:#fff;border:3px solid #2a211b;border-radius:6px;padding:10px 10px 4px;box-sizing:border-box;box-shadow:0 0 0 5px #fff,6px 8px 0 5px rgba(42,33,27,.14)">
+<div style="position:relative;aspect-ratio:4/3.4;border:2.5px solid #2a211b;border-radius:4px;overflow:hidden;background:#fdf8ef">
+<image-slot id="vj-couple-portrait" shape="rect" fit="contain" src="./couple-sketch.svg" placeholder="Photo or illustration of Vishnu and Jhansi"></image-slot>
+</div>
+<p aria-hidden="true" style="margin:6px 0 2px;font-family:'Caveat Brush',cursive;font-size:24px">v + j</p>
+</div>
+<h1 style="margin:6px 0 0;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(30px,8vw,46px);line-height:1.1;text-wrap:balance">Vishnu K. Raman<span aria-hidden="true" style="display:flex;justify-content:center;margin:8px 0"><span style="display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:22px;transform:rotate(-8deg)">&amp;</span></span><span style="position:absolute;left:-9999px">and</span>Jhansi Vijay</h1>
+<p style="margin:0;font-size:19px;line-height:1.5;max-width:380px;text-wrap:pretty">With joy, our families invite you to celebrate our wedding.</p>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;width:100%;margin-top:6px">
+<a href="#ceremony" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;background:#f7c6d0;border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,5px 7px 0 5px rgba(42,33,27,.16);transform:rotate(-2.5deg);color:#2a211b;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(0deg) scale(1.04)">
+<span style="font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase">Wedding Ceremony</span>
+<span style="font-family:'Playpen Sans',cursive;font-weight:800;font-size:30px;line-height:1">Nov 5</span>
+<span style="font-size:15px;font-weight:700">Thursday, 2026</span>
+</a>
+<a href="#reception" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:16px 8px;background:#ffe39a;border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,5px 7px 0 5px rgba(42,33,27,.16);transform:rotate(2.5deg);color:#2a211b;text-decoration:none;transition:transform .2s" style-hover="transform:rotate(0deg) scale(1.04)">
+<span style="font-size:13px;font-weight:800;letter-spacing:.06em;text-transform:uppercase">Wedding Reception</span>
+<span style="font-family:'Playpen Sans',cursive;font-weight:800;font-size:30px;line-height:1">Nov 11</span>
+<span style="font-size:15px;font-weight:700">Wednesday, 2026</span>
+</a>
+</div>
+<a href="#rsvp" style="display:flex;align-items:center;justify-content:center;gap:10px;width:100%;min-height:58px;margin-top:10px;background:#2a211b;color:#fff;border-radius:999px;font-family:'Playpen Sans',cursive;font-size:20px;font-weight:800;text-decoration:none;box-shadow:0 0 0 5px #fff,5px 7px 0 5px rgba(42,33,27,.2);transition:transform .15s" style-hover="transform:translateY(-3px) rotate(-1deg);color:#fff">RSVP <span aria-hidden="true">→</span></a>
+</div>
+
+<div data-reveal="1" style="width:100%;max-width:560px;text-align:center">
+<p style="margin:0 0 14px;font-family:'Caveat Brush',cursive;font-size:30px;color:#9b2f4f">{{ cdLabel }}</p>
+<div role="timer" aria-label="{{ cdAria }}" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px">
+<sc-for list="{{ cdUnits }}" as="u" hint-placeholder-count="4">
+<div style="{{ u.style }}"><span style="font-family:'Playpen Sans',cursive;font-size:30px;font-weight:800;line-height:1">{{ u.v }}</span><span style="font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase">{{ u.k }}</span></div>
+</sc-for>
+</div>
+</div>
+</header>
+
+<section aria-labelledby="events-h" style="position:relative;padding:40px 0 10px">
+<h2 id="events-h" data-reveal="1" style="margin:0 0 30px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#bfe3cf;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(-8deg)">✿</span>Two celebrations</h2>
+<div style="display:flex;flex-direction:column;gap:40px;max-width:680px">
+
+<article data-reveal="1" id="ceremony" aria-labelledby="ceremony-h" style="position:relative;scroll-margin-top:20px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:30px 22px 24px;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13);display:flex;flex-direction:column;gap:16px">
+<span aria-hidden="true" style="position:absolute;top:-15px;left:26px;width:110px;height:28px;transform:rotate(-4deg);background:repeating-linear-gradient(90deg,rgba(247,198,208,.95) 0 10px,rgba(255,255,255,.75) 10px 20px)"></span>
+<span aria-hidden="true" style="position:absolute;top:-22px;right:18px;display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 5px #fff;font-family:'Playpen Sans',cursive;font-weight:800;font-size:26px;transform:rotate(10deg)">1</span>
+<p style="margin:0;font-family:'Caveat Brush',cursive;font-size:26px;line-height:1;color:#9b2f4f">first, the vows</p>
+<h3 id="ceremony-h" style="margin:0;font-family:'Playpen Sans',cursive;font-size:28px;font-weight:800;line-height:1.1">Wedding Ceremony</h3>
+<dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:18px;line-height:1.45">
+<dt style="font-weight:800">Date</dt><dd style="margin:0">Thursday, November 5, 2026</dd>
+<dt style="font-weight:800">Time</dt><dd style="margin:0">Auspicious ceremony between 9:30 and 10:30 am</dd>
+<dt style="font-weight:800">Venue</dt><dd style="margin:0">Divisha Farm House<br>Bellavi Cross, Kestur, Karnataka 572128</dd>
+</dl>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+<div style="flex:1 1 200px;display:flex;flex-direction:column;gap:12px">
+<a href="{{ ceremonyMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to Divisha Farm House (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 18px;background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;text-decoration:none;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff">Get directions</a>
+<button type="button" onClick="{{ calCeremony }}" aria-label="Add Wedding Ceremony to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 18px;background:#ffe39a;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">Add to calendar</button>
+</div>
+<a href="{{ ceremonyMapUrl }}" target="_blank" rel="noopener" aria-label="Map QR code for Divisha Farm House" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 4px;background:#fff;border:3px solid #2a211b;border-radius:6px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.14);transform:rotate(3deg);color:#2a211b;text-decoration:none">
+<span aria-hidden="true" style="line-height:0">{{ ceremonyQr }}</span>
+<span style="font-family:'Caveat Brush',cursive;font-size:20px">scan me</span>
+</a>
+</div>
+</article>
+
+<article data-reveal="1" id="reception" aria-labelledby="reception-h" style="position:relative;scroll-margin-top:20px;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:30px 22px 24px;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13);display:flex;flex-direction:column;gap:16px">
+<span aria-hidden="true" style="position:absolute;top:-15px;right:90px;width:110px;height:28px;transform:rotate(3deg);background:repeating-linear-gradient(90deg,rgba(255,227,154,.95) 0 10px,rgba(255,255,255,.75) 10px 20px)"></span>
+<span aria-hidden="true" style="position:absolute;top:-22px;right:18px;display:flex;align-items:center;justify-content:center;width:56px;height:56px;background:#ffe39a;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 5px #fff;font-family:'Playpen Sans',cursive;font-weight:800;font-size:26px;transform:rotate(-8deg)">2</span>
+<p style="margin:0;font-family:'Caveat Brush',cursive;font-size:26px;line-height:1;color:#8a5a0a">then, the party</p>
+<h3 id="reception-h" style="margin:0;font-family:'Playpen Sans',cursive;font-size:28px;font-weight:800;line-height:1.1">Wedding Reception</h3>
+<dl style="margin:0;display:grid;grid-template-columns:auto 1fr;gap:10px 14px;font-size:18px;line-height:1.45">
+<dt style="font-weight:800">Date</dt><dd style="margin:0">Wednesday, November 11, 2026</dd>
+<dt style="font-weight:800">Time</dt><dd style="margin:0">From 5:00 pm</dd>
+<dt style="font-weight:800">Venue</dt><dd style="margin:0">Parish Hall, St. George Orthodox Catholicate Simhasana Church<br>Thattayil P.O., Keerukuzhy</dd>
+</dl>
+<div style="display:flex;flex-wrap:wrap;gap:14px;align-items:center">
+<div style="flex:1 1 200px;display:flex;flex-direction:column;gap:12px">
+<a href="{{ receptionMapUrl }}" target="_blank" rel="noopener" aria-label="Get directions to the Parish Hall (opens Google Maps)" style="display:flex;align-items:center;justify-content:center;min-height:52px;padding:0 18px;background:#2a211b;color:#fff;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;text-decoration:none;transition:transform .15s" style-hover="transform:translateY(-2px);color:#fff">Get directions</a>
+<button type="button" onClick="{{ calReception }}" aria-label="Add Wedding Reception to Google Calendar (opens in a new tab)" style="min-height:52px;padding:0 18px;background:#bfe3cf;color:#2a211b;border:3px solid #2a211b;border-radius:999px;font-size:17px;font-weight:800;cursor:pointer;transition:transform .15s" style-hover="transform:translateY(-2px)">Add to calendar</button>
+</div>
+<a href="{{ receptionMapUrl }}" target="_blank" rel="noopener" aria-label="Map QR code for the Parish Hall" style="flex:none;display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 10px 4px;background:#fff;border:3px solid #2a211b;border-radius:6px;box-shadow:0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.14);transform:rotate(-3deg);color:#2a211b;text-decoration:none">
+<span aria-hidden="true" style="line-height:0">{{ receptionQr }}</span>
+<span style="font-family:'Caveat Brush',cursive;font-size:20px">scan me</span>
+</a>
+</div>
+</article>
+</div>
+<p role="status" aria-live="polite" style="margin:14px 0 0;min-height:22px;font-size:16px;font-weight:600">{{ calMsg }}</p>
+</section>
+
+<section aria-labelledby="dates-h" style="padding:34px 0 10px">
+<h2 id="dates-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#c7dcf5;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(8deg)">☾</span>Six days apart</h2>
+<div data-reveal="1" style="position:relative;background:#fffdf8;border:3px solid #2a211b;border-radius:22px;padding:24px 14px 22px;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13);max-width:680px;box-sizing:border-box">
+<p style="margin:0 0 6px;text-align:center;font-size:18px;font-weight:800">November 2026</p>
+<p style="margin:0 0 18px;text-align:center;font-family:'Caveat Brush',cursive;font-size:24px;color:#9b2f4f">vows on the 5th → party on the 11th</p>
+<ol aria-label="November 5 to 11, 2026. Ceremony on Thursday the 5th, reception on Wednesday the 11th." style="list-style:none;margin:0 auto;padding:0;display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;max-width:600px">
+<li style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-size:13px;font-weight:800">Thu</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 3px #fff;font-family:'Playpen Sans',cursive;font-size:22px;font-weight:800;transform:rotate(-8deg)">5</span><span style="font-size:12px;font-weight:800;text-align:center;line-height:1.2">Ceremony</span></li>
+<li aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b5047"><span style="font-size:13px">Fri</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(42,33,27,.35);border-radius:50%;font-size:17px">6</span></li>
+<li aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b5047"><span style="font-size:13px">Sat</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(42,33,27,.35);border-radius:50%;font-size:17px">7</span></li>
+<li aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b5047"><span style="font-size:13px">Sun</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(42,33,27,.35);border-radius:50%;font-size:17px">8</span></li>
+<li aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b5047"><span style="font-size:13px">Mon</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(42,33,27,.35);border-radius:50%;font-size:17px">9</span></li>
+<li aria-hidden="true" style="display:flex;flex-direction:column;align-items:center;gap:6px;color:#5b5047"><span style="font-size:13px">Tue</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;border:2px dashed rgba(42,33,27,.35);border-radius:50%;font-size:17px">10</span></li>
+<li style="display:flex;flex-direction:column;align-items:center;gap:6px"><span style="font-size:13px;font-weight:800">Wed</span><span style="width:100%;max-width:58px;aspect-ratio:1;display:flex;align-items:center;justify-content:center;background:#ffe39a;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 3px #fff;font-family:'Playpen Sans',cursive;font-size:22px;font-weight:800;transform:rotate(8deg)">11</span><span style="font-size:12px;font-weight:800;text-align:center;line-height:1.2">Reception</span></li>
+</ol>
+</div>
+</section>
+
+<section id="rsvp" aria-labelledby="rsvp-h" style="scroll-margin-top:20px;padding:40px 0 30px">
+<h2 id="rsvp-h" data-reveal="1" style="margin:0 0 26px;display:flex;align-items:center;gap:12px;font-family:'Playpen Sans',cursive;font-weight:800;font-size:clamp(26px,6vw,34px)"><span aria-hidden="true" style="display:inline-flex;align-items:center;justify-content:center;width:44px;height:44px;background:#f7c6d0;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-size:20px;transform:rotate(-6deg)">✉</span>Will you join us?</h2>
+<div data-reveal="1" style="position:relative;max-width:600px;background-color:#fffdf7;background-image:linear-gradient(90deg,transparent 34px,#f2a3b3 34px,#f2a3b3 36px,transparent 36px),repeating-linear-gradient(180deg,transparent 0 35px,#dfe7f3 35px 37px);border:3px solid #2a211b;border-radius:14px;padding:30px 20px 28px 52px;box-sizing:border-box;box-shadow:0 0 0 7px #fff,8px 10px 0 7px rgba(42,33,27,.13)">
+<span aria-hidden="true" style="position:absolute;top:-14px;left:50%;width:120px;height:28px;margin-left:-60px;transform:rotate(2deg);background:repeating-linear-gradient(45deg,rgba(199,220,245,.95) 0 8px,rgba(255,255,255,.75) 8px 16px)"></span>
+
+<sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+<div role="status" aria-live="polite" tabindex="-1" ref="{{ doneRef }}" style="display:flex;flex-direction:column;gap:12px;outline:none">
+<p style="margin:0;font-family:'Caveat Brush',cursive;font-size:44px;line-height:1;color:#9b2f4f">yay, thank you!</p>
+<p style="margin:0;font-size:19px;line-height:1.5;font-weight:800">Your reply has been recorded, {{ sentName }}.</p>
+<p style="margin:0;font-size:18px;line-height:1.5">{{ sentSummary }}</p>
+<p style="margin:0;font-size:15px;color:#6e1d36">{{ previewNote }}</p>
+<button type="button" onClick="{{ reset }}" style="align-self:flex-start;min-height:48px;padding:0 20px;background:#fff;border:3px solid #2a211b;border-radius:999px;font-size:16px;font-weight:800;cursor:pointer;color:#2a211b">Change my reply</button>
+</div>
+</sc-if>
+
+<sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+<form onSubmit="{{ submit }}" novalidate="novalidate" style="display:flex;flex-direction:column;gap:22px">
+<div style="display:flex;flex-direction:column;gap:8px">
+<label for="rsvp-name" style="font-size:18px;font-weight:800">Your name</label>
+<input id="rsvp-name" name="name" autocomplete="name" required="required" aria-invalid="{{ nameInvalid }}" aria-describedby="rsvp-err" value="{{ name }}" onChange="{{ onName }}" style="min-height:52px;box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:0 14px;font-size:18px;color:#2a211b">
+</div>
+<fieldset style="margin:0;padding:0;border:0;display:flex;flex-direction:column;gap:12px">
+<legend style="padding:0;margin-bottom:12px;font-size:18px;font-weight:800">Which events will you attend?</legend>
+<sc-for list="{{ options }}" as="opt" hint-placeholder-count="4">
+<label style="{{ opt.style }}">
+<input type="radio" name="attend" value="{{ opt.value }}" checked="{{ opt.checked }}" onChange="{{ opt.pick }}" style="width:22px;height:22px;margin:0;flex:none;accent-color:#9b2f4f">
+<span style="display:flex;flex-direction:column;gap:2px"><span style="font-size:18px;font-weight:800">{{ opt.label }}</span><span style="font-size:15px;color:#4a4038">{{ opt.sub }}</span></span>
+</label>
+</sc-for>
+</fieldset>
+<sc-if value="{{ showGuests }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;flex-direction:column;gap:8px">
+<label for="rsvp-count" style="font-size:18px;font-weight:800">Number of attendees, including you</label>
+<input id="rsvp-count" type="number" inputmode="numeric" min="1" value="{{ count }}" onChange="{{ onCount }}" style="width:120px;min-height:52px;box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:0 14px;font-size:18px;color:#2a211b">
+</div>
+</sc-if>
+<div style="display:flex;flex-direction:column;gap:8px">
+<label for="rsvp-note" style="font-size:18px;font-weight:800">A note for the couple <span style="font-weight:400">(optional)</span></label>
+<textarea id="rsvp-note" rows="3" value="{{ note }}" onChange="{{ onNote }}" style="box-sizing:border-box;border:3px solid #2a211b;border-radius:14px;background:#fff;padding:12px 14px;font-size:18px;color:#2a211b;resize:vertical"></textarea>
+</div>
+<p id="rsvp-err" role="alert" style="margin:0;font-size:17px;font-weight:800;color:#8a1c2c">{{ error }}</p>
+<button type="submit" aria-busy="{{ sending }}" style="min-height:58px;background:#2a211b;color:#fff;border:0;border-radius:999px;font-family:'Playpen Sans',cursive;font-size:20px;font-weight:800;cursor:pointer;box-shadow:0 0 0 5px #fff,5px 7px 0 5px rgba(42,33,27,.2);transition:transform .15s" style-hover="transform:translateY(-3px) rotate(-1deg)">{{ submitLabel }}</button>
+</form>
+</sc-if>
+</div>
+</section>
+
+<footer style="padding:10px 0 60px;display:flex;flex-direction:column;align-items:center;gap:14px">
+<p style="margin:0;font-family:'Caveat Brush',cursive;font-size:32px;color:#4a4038">with love, vishnu + jhansi</p>
+<button type="button" onClick="{{ replay }}" style="min-height:44px;padding:0 16px;background:none;border:0;font-size:15px;text-decoration:underline;color:#2a211b;cursor:pointer">Open the envelope again</button>
+</footer>
+
+</main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showEnvelope&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Opening&quot;},&quot;view&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;responsive&quot;,&quot;mobile&quot;],&quot;default&quot;:&quot;responsive&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;breakpoint&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:600,&quot;min&quot;:360,&quot;max&quot;:900,&quot;step&quot;:20,&quot;unit&quot;:&quot;px&quot;,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Layout&quot;},&quot;showThread&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Style&quot;},&quot;rsvpEndpoint&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://script.google.com/macros/s/AKfycbzCos9iIsnVn-sv557--dYrFmFP_DmYDqorhyNnNprB32Ph4f5-FuIoJSgKsiZ8zME6/exec&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;askGuestCount&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;RSVP&quot;},&quot;ceremonyMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/7jnDv8zNj9yVvmHY8&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;},&quot;receptionMapUrl&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;https://maps.app.goo.gl/Pa1DPMZLZHVxTLVWA&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Directions&quot;}}">
+class Component extends DCLogic {
+  state = { stage: 'gone', reduce: false, now: 0, pathD: '', len: 1, progress: 0, dot: null, narrow: false, name: '', attend: '', count: '1', note: '', sent: false, error: '', tried: false, calMsg: '' };
+  KEY = 'vj-envelope-A';
+
+  componentDidMount() {
+    this.mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+    let opened = false;
+    try { opened = sessionStorage.getItem(this.KEY) === '1'; } catch (e) {}
+    const env = (this.props.showEnvelope ?? true) && !opened;
+    if (env) document.body.style.overflow = 'hidden';
+    this.setState({ reduce: this.mq.matches, now: Date.now(), stage: env ? 'closed' : 'gone' }, () => { this.setupMotion(); this.onScroll(); });
+    this.tick = setInterval(() => this.setState({ now: Date.now() }), 1000);
+    this.build();
+    this.ro = new ResizeObserver(() => this.build());
+    this.ro.observe(document.body);
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    if (!window.qrcode) this.qrWait = setInterval(() => { if (window.qrcode) { clearInterval(this.qrWait); this.forceUpdate(); } }, 150);
+  }
+  componentWillUnmount() {
+    clearInterval(this.tick); clearInterval(this.qrWait);
+    [this.t1, this.t2, this.t3].forEach(clearTimeout);
+    this.ro && this.ro.disconnect(); this.io && this.io.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
+    document.body.style.overflow = '';
+  }
+  componentDidUpdate(prev) {
+    if (prev.view !== this.props.view || prev.breakpoint !== this.props.breakpoint) { this.lastW = null; this.build(); }
+  }
+
+  envBtnRef = (el) => { if (el) setTimeout(() => el.focus({ preventScroll: true }), 50); };
+  openEnvelope = () => {
+    if (this.state.stage !== 'closed') return;
+    try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {}
+    if (this.state.reduce) return this.finishEnv();
+    this.setState({ stage: 'flap' });
+    this.t1 = setTimeout(() => this.setState({ stage: 'rise' }), 600);
+    this.t2 = setTimeout(() => this.setState({ stage: 'fade' }), 1700);
+    this.t3 = setTimeout(this.finishEnv, 2300);
+  };
+  skipEnvelope = () => { try { sessionStorage.setItem(this.KEY, '1'); } catch (e) {} this.finishEnv(); };
+  finishEnv = () => {
+    document.body.style.overflow = '';
+    this.setState({ stage: 'gone' }, () => { this.lastH = null; this.build(); this.setupMotion(); this.burst(0.35); });
+  };
+  replay = () => { window.scrollTo(0, 0); document.body.style.overflow = 'hidden'; this.setState({ stage: 'closed' }); };
+
+  shellRef = (el) => { this.shellEl = el; if (el) { this.lastW = null; this.build(); } };
+  frameW() {
+    if ((this.props.view ?? 'responsive') === 'mobile') return 390;
+    return this.shellEl ? this.shellEl.clientWidth : document.documentElement.clientWidth;
+  }
+  pathRef = (el) => { this.pathEl = el; if (el) requestAnimationFrame(this.measure); };
+  build = () => {
+    const h = document.documentElement.scrollHeight, w = this.frameW();
+    if (h === this.lastH && w === this.lastW) return;
+    this.lastH = h; this.lastW = w;
+    const narrow = w <= (this.props.breakpoint ?? 600);
+    if (narrow !== this.state.narrow) this.setState({ narrow });
+    const cx = w / 2, amp = Math.min(w * 0.36, 300), wave = narrow ? 560 : 760;
+    let d = '';
+    for (let y = 0; y <= h; y += 16) {
+      const x = cx + amp * Math.sin((y / wave) * Math.PI * 2) + amp * 0.25 * Math.sin((y / (wave * 0.37)) * Math.PI * 2);
+      d += (d ? ' L' : 'M') + x.toFixed(1) + ' ' + y;
+    }
+    this.setState({ pathD: d }, () => requestAnimationFrame(this.measure));
+  };
+  measure = () => { if (this.pathEl) { const len = this.pathEl.getTotalLength(); if (len) this.setState({ len }, this.onScroll); } };
+  onScroll = () => {
+    const max = document.documentElement.scrollHeight - window.innerHeight;
+    const reduce = this.state.reduce;
+    const p = reduce ? 1 : Math.max(0, Math.min(1, max > 0 ? window.scrollY / max : 0));
+    let dot = null;
+    if (!reduce && this.pathEl && this.state.len > 1) { const pt = this.pathEl.getPointAtLength(this.state.len * p); dot = { x: pt.x, y: pt.y }; }
+    this.setState({ progress: p, dot });
+  };
+
+  setupMotion() {
+    if (this.state.stage !== 'gone') return;
+    const root = this.shellEl || document;
+    this.io && this.io.disconnect();
+    const floats = [...document.querySelectorAll('[data-float]')], wob = [...document.querySelectorAll('[data-wobble]')], nudge = [...document.querySelectorAll('[data-nudge]')];
+    if (this.state.reduce) { [...floats, ...wob, ...nudge].forEach((el) => (el.style.animation = '')); return; }
+    floats.forEach((el, i) => (el.style.animation = 'floaty ' + (4 + i) + 's ease-in-out infinite'));
+    wob.forEach((el) => (el.style.animation = 'wobble 5s ease-in-out infinite'));
+    nudge.forEach((el) => (el.style.animation = 'nudge 1.2s ease-in-out infinite'));
+    this.io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = ''; e.target.dataset.seen = '1'; this.io.unobserve(e.target); }
+    }), { threshold: 0.1 });
+    [...root.querySelectorAll('[data-reveal]')].forEach((el, i) => {
+      if (el.dataset.seen) return;
+      if (el.style.opacity === '0') { this.io.observe(el); return; }
+      if (el.getBoundingClientRect().top < window.innerHeight * 0.9) { el.dataset.seen = '1'; return; }
+      el.style.transition = 'opacity .6s ease, transform .7s cubic-bezier(.2,.9,.25,1.35)';
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(40px) scale(.94) rotate(' + (i % 2 ? 2 : -2) + 'deg)';
+      this.io.observe(el);
+    });
+  }
+
+  burst(y = 0.45) {
+    if (this.state.reduce) return;
+    const host = document.createElement('div');
+    host.setAttribute('aria-hidden', 'true');
+    host.style.cssText = 'position:fixed;left:50%;top:' + y * 100 + '%;width:0;height:0;pointer-events:none;z-index:200';
+    const cols = ['#f7c6d0', '#ffe39a', '#bfe3cf', '#c7dcf5', '#f4a9ba'], shapes = ['50%', '4px', '60% 0 60% 0'];
+    for (let i = 0; i < 44; i++) {
+      const p = document.createElement('span'), a = Math.random() * Math.PI * 2, d = 120 + Math.random() * 240;
+      p.style.cssText = 'position:absolute;width:14px;height:14px;border:2px solid #2a211b;box-shadow:0 0 0 2px #fff;border-radius:' + shapes[i % 3] + ';background:' + cols[i % 5] +
+        ';--bx:' + Math.cos(a) * d + 'px;--by:' + (Math.sin(a) * d + 90) + 'px;--spin:' + (Math.random() * 720 - 360) + 'deg;animation:burst ' + (1.1 + Math.random() * .9) + 's cubic-bezier(.1,.7,.3,1) forwards';
+      host.appendChild(p);
+    }
+    document.body.appendChild(host);
+    setTimeout(() => host.remove(), 2400);
+  }
+
+  events = {
+    ceremony: { title: 'Wedding Ceremony: Vishnu K. Raman & Jhansi Vijay', start: '20261105T093000', end: '20261105T103000', loc: 'Divisha Farm House, Bellavi Cross, Kestur, Karnataka 572128', desc: 'Auspicious ceremony between 9:30 and 10:30 am.' },
+    reception: { title: 'Wedding Reception: Vishnu K. Raman & Jhansi Vijay', start: '20261111T170000', loc: 'Parish Hall, St. George Orthodox Catholicate Simhasana Church, Thattayil P.O., Keerukuzhy', desc: 'Reception from 5:00 pm.' },
+  };
+  urls() {
+    return { ceremony: this.props.ceremonyMapUrl || 'https://maps.app.goo.gl/7jnDv8zNj9yVvmHY8', reception: this.props.receptionMapUrl || 'https://maps.app.goo.gl/Pa1DPMZLZHVxTLVWA' };
+  }
+  addCal = (key) => {
+    const e = this.events[key];
+    const url = 'https://calendar.google.com/calendar/render?action=TEMPLATE&text=' + encodeURIComponent(e.title) + '&dates=' + e.start + '/' + (e.end || e.start) +
+      '&ctz=Asia/Kolkata&location=' + encodeURIComponent(e.loc) + '&details=' + encodeURIComponent(e.desc + '\nDirections: ' + this.urls()[key]);
+    window.open(url, '_blank', 'noopener');
+    this.setState({ calMsg: 'Opening Google Calendar for the ' + (key === 'ceremony' ? 'Wedding Ceremony' : 'Wedding Reception') + '.' });
+  };
+  qrFor(url) {
+    if (!window.qrcode) return null;
+    this.qrCache = this.qrCache || {};
+    if (this.qrCache[url]) return this.qrCache[url];
+    const q = window.qrcode(0, 'M'); q.addData(url); q.make();
+    const n = q.getModuleCount(), cells = [];
+    for (let r = 0; r < n; r++) for (let c = 0; c < n; c++) cells.push(React.createElement('div', { key: r + '-' + c, style: { background: q.isDark(r, c) ? '#2a211b' : 'transparent' } }));
+    return (this.qrCache[url] = React.createElement('div', { style: { display: 'grid', gridTemplateColumns: 'repeat(' + n + ',1fr)', width: 96, height: 96 } }, cells));
+  }
+  doneRef = (el) => { if (el) el.focus(); };
+  validate(s) {
+    if (!s.name.trim()) return 'Please enter your name.';
+    if (!s.attend) return 'Please choose which events you will attend.';
+    return '';
+  }
+
+  renderVals() {
+    const s = this.state, u = this.urls(), st = s.stage;
+    const mobile = (this.props.view ?? 'responsive') === 'mobile';
+    const narrow = mobile || s.narrow;
+    const cStart = Date.parse('2026-11-05T09:30:00+05:30'), rStart = Date.parse('2026-11-11T17:00:00+05:30');
+    const now = s.now || Date.now(), target = now < cStart ? cStart : rStart, diff = Math.max(0, target - now);
+    const dd = Math.floor(diff / 864e5), hh = Math.floor(diff / 36e5) % 24, mm = Math.floor(diff / 6e4) % 60, ss = Math.floor(diff / 1e3) % 60;
+    const pad = (n) => String(n).padStart(2, '0');
+    const bgs = ['#f7c6d0', '#ffe39a', '#bfe3cf', '#c7dcf5'], rot = [-4, 3, -2, 4];
+    const opts = [
+      { value: 'both', label: 'Both events', sub: 'Ceremony on Nov 5 and reception on Nov 11', bg: '#fde3ea' },
+      { value: 'ceremony', label: 'Wedding Ceremony only', sub: 'Thursday, November 5', bg: '#fde3ea' },
+      { value: 'reception', label: 'Wedding Reception only', sub: 'Wednesday, November 11', bg: '#fff1c7' },
+      { value: 'neither', label: 'Unable to attend', sub: 'Sending our wishes', bg: '#e3eefb' },
+    ];
+    const summaries = {
+      both: 'You will attend both the Wedding Ceremony on Thursday, November 5 and the Wedding Reception on Wednesday, November 11.',
+      ceremony: 'You will attend the Wedding Ceremony on Thursday, November 5.',
+      reception: 'You will attend the Wedding Reception on Wednesday, November 11.',
+      neither: 'You are unable to attend. Thank you for letting us know.',
+    };
+    const showGuests = !!((this.props.askGuestCount ?? false) && s.attend && s.attend !== 'neither');
+    let summary = summaries[s.attend] || '';
+    if (showGuests && s.sent) summary += ' Attendees: ' + s.count + '.';
+    const opened = st === 'rise' || st === 'fade';
+    return {
+      envVisible: st !== 'gone',
+      envOverlayStyle: 'position:fixed;inset:0;z-index:100;display:flex;align-items:center;justify-content:center;background-color:#f6efe2;background-image:radial-gradient(#d8cab0 1.3px,transparent 1.5px);background-size:22px 22px;transition:opacity .6s ease;opacity:' + (st === 'fade' ? 0 : 1),
+      envFlapStyle: 'position:absolute;left:0;right:0;top:0;height:62%;background:#f09cb0;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:50% 0;transition:transform .6s cubic-bezier(.4,.1,.3,1);transform:rotateX(' + (st === 'closed' ? 0 : 180) + 'deg);z-index:' + (st === 'closed' || st === 'flap' ? 4 : 0),
+      envLetterStyle: 'position:absolute;left:7%;right:7%;top:8%;bottom:8%;background:#fffdf8;border:3px solid #2a211b;border-radius:8px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;z-index:2;transition:transform .9s cubic-bezier(.2,.9,.25,1.2);transform:translateY(' + (opened ? '-62%' : '0') + ') rotate(' + (opened ? '-2deg' : '0deg') + ')',
+      envSealStyle: 'position:absolute;left:50%;top:62%;width:62px;height:62px;margin:-31px 0 0 -31px;display:flex;align-items:center;justify-content:center;background:#9b2f4f;color:#fff;border:3px solid #2a211b;border-radius:50%;box-shadow:0 0 0 4px #fff;font-family:"Playpen Sans",cursive;font-weight:800;font-size:18px;z-index:5;transition:transform .35s ease,opacity .35s ease;opacity:' + (st === 'closed' ? 1 : 0) + ';transform:scale(' + (st === 'closed' ? 1 : 1.4) + ')',
+      envBtnRef: this.envBtnRef, openEnvelope: this.openEnvelope, skipEnvelope: this.skipEnvelope, replay: this.replay,
+      shellRef: this.shellRef,
+      shellStyle: 'position:relative;min-height:100vh;overflow:hidden' + (mobile ? ';width:390px;max-width:100%;margin:0 auto;border-left:2px dashed rgba(42,33,27,.2);border-right:2px dashed rgba(42,33,27,.2)' : ''),
+      mainStyle: 'position:relative;z-index:1;max-width:1000px;margin:0 auto;display:flex;flex-direction:column;align-items:center;padding:' + (narrow ? '0 18px' : '0 clamp(24px,5vw,56px)'),
+      showThread: this.props.showThread ?? true,
+      pathD: s.pathD, pathRef: this.pathRef, dash: s.len + ' ' + s.len, dashOffset: s.len - s.len * s.progress,
+      dotStyle: s.dot ? 'position:absolute;left:' + s.dot.x + 'px;top:' + s.dot.y + 'px;width:30px;height:30px;margin:-15px 0 0 -15px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:#e7849c;color:#fff;border:3px solid #2a211b;box-shadow:0 0 0 3px #fff;font-size:14px;animation:pulse 2s ease-in-out infinite' : 'display:none',
+      cdUnits: [[dd, 'days'], [pad(hh), 'hours'], [pad(mm), 'mins'], [pad(ss), 'secs']].map(([v, k], i) => ({ v: String(v), k,
+        style: 'display:flex;flex-direction:column;align-items:center;gap:8px;padding:16px 6px 14px;background:' + bgs[i] + ';border:3px solid #2a211b;border-radius:18px;box-shadow:0 0 0 5px #fff,4px 6px 0 5px rgba(42,33,27,.14);transform:rotate(' + rot[i] + 'deg)' })),
+      cdLabel: now >= rStart ? 'thank you for celebrating with us' : (now < cStart ? 'counting down to the big day' : 'counting down to the reception'),
+      cdAria: dd + ' days, ' + hh + ' hours and ' + mm + ' minutes until the ' + (now < cStart ? 'wedding ceremony' : 'reception'),
+      ceremonyMapUrl: u.ceremony, receptionMapUrl: u.reception,
+      ceremonyQr: this.qrFor(u.ceremony), receptionQr: this.qrFor(u.reception),
+      calCeremony: () => this.addCal('ceremony'), calReception: () => this.addCal('reception'), calMsg: s.calMsg,
+      options: opts.map((o, i) => {
+        const on = s.attend === o.value;
+        return { ...o, checked: on,
+          pick: () => this.setState({ attend: o.value, error: s.tried ? this.validate({ ...s, attend: o.value }) : '' }),
+          style: 'display:flex;gap:14px;align-items:center;min-height:58px;padding:10px 14px;box-sizing:border-box;border:3px solid #2a211b;border-radius:16px;cursor:pointer;transition:transform .15s,background .15s;background:' + (on ? o.bg : '#fff') + ';box-shadow:' + (on ? '0 0 0 4px #fff,4px 6px 0 4px rgba(42,33,27,.16)' : 'none') + ';transform:rotate(' + (on ? (i % 2 ? 1 : -1) : 0) + 'deg)' };
+      }),
+      showGuests, name: s.name, count: s.count, note: s.note,
+      nameInvalid: s.tried && !s.name.trim() ? 'true' : 'false',
+      onName: (e) => { const v = e.target.value; this.setState({ name: v, error: s.tried ? this.validate({ ...s, name: v }) : '' }); },
+      onCount: (e) => this.setState({ count: e.target.value }),
+      onNote: (e) => this.setState({ note: e.target.value }),
+      error: s.error,
+      submit: async (e) => {
+        e.preventDefault();
+        if (s.sending) return;
+        const err = this.validate(s);
+        if (err) { this.setState({ error: err, tried: true }); return; }
+        const count = String(Math.max(1, parseInt(s.count, 10) || 1));
+        const endpoint = (this.props.rsvpEndpoint || 'https://script.google.com/macros/s/AKfycbzCos9iIsnVn-sv557--dYrFmFP_DmYDqorhyNnNprB32Ph4f5-FuIoJSgKsiZ8zME6/exec').trim();
+        if (endpoint) {
+          this.setState({ sending: true, error: '' });
+          const labels = { both: 'Attending both', ceremony: 'Ceremony only', reception: 'Reception only', neither: 'Unable to attend' };
+          const body = new URLSearchParams({
+            name: s.name.trim(), response: labels[s.attend],
+            ceremony: s.attend === 'both' || s.attend === 'ceremony' ? 'Yes' : 'No',
+            reception: s.attend === 'both' || s.attend === 'reception' ? 'Yes' : 'No',
+            attendees: showGuests ? count : '', message: s.note.trim(),
+          });
+          try {
+            await fetch(endpoint, { method: 'POST', mode: 'no-cors', body });
+          } catch (x) {
+            this.setState({ sending: false, error: 'We could not send your reply. Please check your connection and try again.' });
+            return;
+          }
+        }
+        if (s.attend !== 'neither') this.burst();
+        this.setState({ sending: false, sent: true, error: '', count, savedLocally: !endpoint });
+      },
+      submitLabel: s.sending ? 'Sending…' : 'Send my reply ♥',
+      previewNote: s.savedLocally ? 'Preview only: this reply was not saved because the RSVP sheet is not connected yet.' : '',
+      sending: s.sending ? 'true' : 'false',
+      sent: s.sent, notSent: !s.sent, sentName: s.name.trim(), sentSummary: summary, doneRef: this.doneRef,
+      reset: () => this.setState({ sent: false, tried: false }),
+    };
+  }
+}
+
+</script>
+</body>
+</html>
